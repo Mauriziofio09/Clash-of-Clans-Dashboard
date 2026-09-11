@@ -1,0 +1,257 @@
+@use '@angular/material' as mat;
+
+/* ---------------------------------------------------------------------------
+   Angular-Material-Theme
+   Dunkles Theme mit goldenem Akzent, angelehnt an die Farbwelt des Spiels.
+   --------------------------------------------------------------------------- */
+html {
+  color-scheme: dark;
+
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$orange-palette,
+        tertiary: mat.$yellow-palette,
+        theme-type: dark,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+/* ---------------------------------------------------------------------------
+   Eigene Design-Tokens
+   --------------------------------------------------------------------------- */
+:root {
+  --coc-bg: #12161f;
+  --coc-bg-elevated: #1a2030;
+  --coc-surface: #202839;
+  --coc-surface-hover: #263047;
+  --coc-border: #2f3a52;
+  --coc-text: #e8ecf5;
+  --coc-text-muted: #94a1bb;
+  --coc-gold: #f5b544;
+  --coc-gold-soft: rgba(245, 181, 68, 0.16);
+  --coc-elixir: #c77dff;
+  --coc-dark-elixir: #9d7bd8;
+  --coc-success: #4ade80;
+  --coc-warn: #fb923c;
+  --coc-danger: #f87171;
+  --coc-info: #60a5fa;
+
+  --coc-radius: 14px;
+  --coc-radius-sm: 9px;
+  --coc-gap: 20px;
+  --coc-shadow: 0 8px 26px rgba(0, 0, 0, 0.38);
+}
+
+/* ---------------------------------------------------------------------------
+   Grundlayout
+   --------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(1100px 600px at 15% -10%, rgba(245, 181, 68, 0.1), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(96, 165, 250, 0.09), transparent 55%),
+    var(--coc-bg);
+  color: var(--coc-text);
+  font-family: Roboto, 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--coc-gold);
+}
+
+/* Sichtbarer Fokus für Tastaturbedienung. Der Ring erscheint nur bei
+   Tastatursteuerung, nicht beim Klicken mit der Maus. */
+:focus-visible {
+  outline: 2px solid var(--coc-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Wer reduzierte Bewegung eingestellt hat, bekommt keine Übergänge. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Sprungmarke zum Inhalt, nur bei Tastaturfokus sichtbar. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 0 0 var(--coc-radius-sm) 0;
+  background: var(--coc-gold);
+  color: #2b1c05;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+/* Schmale, unaufdringliche Scrollbalken - das Dashboard hat viele Listen. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--coc-border);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+   Wiederverwendbare Bausteine
+   --------------------------------------------------------------------------- */
+.panel {
+  background: linear-gradient(180deg, var(--coc-bg-elevated), var(--coc-surface));
+  border: 1px solid var(--coc-border);
+  border-radius: var(--coc-radius);
+  box-shadow: var(--coc-shadow);
+  padding: 20px;
+}
+
+.panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.panel__title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+.panel__title mat-icon {
+  color: var(--coc-gold);
+}
+
+.muted {
+  color: var(--coc-text-muted);
+}
+
+.mono {
+  font-family: 'SF Mono', ui-monospace, 'JetBrains Mono', Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--coc-border);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.78rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.chip--gold {
+  border-color: rgba(245, 181, 68, 0.45);
+  background: var(--coc-gold-soft);
+  color: var(--coc-gold);
+}
+
+.chip--success {
+  border-color: rgba(74, 222, 128, 0.4);
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--coc-success);
+}
+
+.chip--warn {
+  border-color: rgba(251, 146, 60, 0.4);
+  background: rgba(251, 146, 60, 0.12);
+  color: var(--coc-warn);
+}
+
+.chip--danger {
+  border-color: rgba(248, 113, 113, 0.4);
+  background: rgba(248, 113, 113, 0.12);
+  color: var(--coc-danger);
+}
+
+.chip--info {
+  border-color: rgba(96, 165, 250, 0.4);
+  background: rgba(96, 165, 250, 0.12);
+  color: var(--coc-info);
+}
+
+/* Standard-Raster für Seiteninhalte, bricht auf Tablets sauber um. */
+.grid {
+  display: grid;
+  gap: var(--coc-gap);
+}
+
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 14px;
+  }
+
+  .panel {
+    padding: 15px;
+  }
+}
+
+/* Material-Feinschliff */
+.mat-mdc-card {
+  background: var(--coc-surface) !important;
+}
+
+.mat-mdc-snack-bar-container.snack--ready {
+  --mdc-snackbar-container-color: #1f2b1f;
+  --mdc-snackbar-supporting-text-color: #d7ffd9;
+}
+
+.mat-mdc-tab-nav-bar {
+  --mdc-secondary-navigation-tab-container-height: 46px;
+}

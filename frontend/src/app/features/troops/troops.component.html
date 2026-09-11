@@ -1,0 +1,119 @@
+<div class="page grid">
+  @if (troops().error) {
+    <app-error-panel [error]="troops().error!" (retry)="retry()" />
+  } @else if (troops().data; as data) {
+    <section class="panel toolbar">
+      <div class="toolbar__head">
+        <div>
+          <h1>Truppen, Zauber &amp; Helden</h1>
+          <p class="muted">
+            Verglichen wird mit dem Maximum für Rathaus {{ data.townHallLevel }}, nicht mit dem
+            Spielmaximum. Offene Upgrades: <strong>{{ openUpgrades() }}</strong>
+          </p>
+        </div>
+        <div class="toolbar__overall">
+          <span class="toolbar__overall-num mono">{{ data.overallPercent }}<small>%</small></span>
+          <span class="muted">Gesamtfortschritt</span>
+        </div>
+      </div>
+
+      <div class="toolbar__filters">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search">
+          <mat-label>Einheit suchen</mat-label>
+          <input matInput [ngModel]="search()" (ngModelChange)="search.set($event)" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-checkbox [checked]="hideLocked()" (change)="hideLocked.set($event.checked)">
+          Nicht freigeschaltete ausblenden
+        </mat-checkbox>
+
+        <mat-checkbox [checked]="hideMaxed()" (change)="hideMaxed.set($event.checked)">
+          Fertige ausblenden
+        </mat-checkbox>
+      </div>
+    </section>
+
+    @for (group of groups(); track group.category) {
+      <section class="panel">
+        <div class="panel__head">
+          <h2 class="panel__title">
+            <mat-icon aria-hidden="true">{{
+              group.category === 'hero'
+                ? 'shield_person'
+                : group.category === 'pet'
+                  ? 'pets'
+                  : group.category === 'siege'
+                    ? 'agriculture'
+                    : group.category === 'spell' || group.category === 'darkSpell'
+                      ? 'auto_fix_high'
+                      : 'groups'
+            }}</mat-icon>
+            {{ group.label }}
+          </h2>
+          <span class="chip chip--gold mono">{{ group.percent }} %</span>
+        </div>
+
+        <div class="units">
+          @for (unit of group.units; track unit.name) {
+            <div class="unit" [class.unit--locked]="unit.locked" [class.unit--maxed]="unit.maxed">
+              <div class="unit__row">
+                <span class="unit__name">
+                  {{ unit.name }}
+                  @if (unit.estimated) {
+                    <mat-icon
+                      class="unit__flag"
+                      matTooltip="Für diese Einheit ist keine Rathaus-Tabelle hinterlegt. Verglichen wird mit dem Spielmaximum."
+                      >help_outline</mat-icon
+                    >
+                  }
+                </span>
+                @if (unit.locked) {
+                  <span class="chip muted">noch nicht freigeschaltet</span>
+                } @else {
+                  <span class="unit__level mono">
+                    {{ unit.level }} <span class="muted">/ {{ unit.maxForTownHall }}</span>
+                  </span>
+                }
+              </div>
+
+              @if (!unit.locked) {
+                <div
+                  class="bar"
+                  role="progressbar"
+                  [attr.aria-valuenow]="unit.percent"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  [attr.aria-label]="unit.name + ': Level ' + unit.level + ' von ' + unit.maxForTownHall"
+                >
+                  <div
+                    class="bar__fill"
+                    [style.width.%]="unit.percent"
+                    [style.background]="barColor(unit.percent, unit.maxed)"
+                  ></div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </section>
+    } @empty {
+      @if (!troops().loading) {
+        <app-empty-state
+          icon="filter_alt_off"
+          title="Keine Treffer"
+          text="Zu den gewählten Filtern passt keine Einheit. Suchbegriff leeren oder die Haken entfernen."
+        />
+      }
+    }
+  } @else {
+    <section class="panel">
+      <app-skeleton [rows]="[0, 1]" [height]="28" />
+    </section>
+    @for (block of [0, 1, 2]; track block) {
+      <section class="panel">
+        <app-skeleton [rows]="[0, 1, 2, 3]" [height]="34" />
+      </section>
+    }
+  }
+</div>

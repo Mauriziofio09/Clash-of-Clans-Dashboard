@@ -1,0 +1,133 @@
+<div class="page grid">
+  <!-- Krieg ------------------------------------------------------------- -->
+  <section class="panel">
+    <div class="panel__head">
+      <h1 class="panel__title"><mat-icon aria-hidden="true">shield</mat-icon> Aktueller Clankrieg</h1>
+    </div>
+
+    @if (war().error) {
+      <app-error-panel [error]="war().error!" [compact]="true" (retry)="retry()" />
+    } @else if (war().data; as w) {
+      <app-war-status [war]="w" />
+    } @else {
+      <app-skeleton [rows]="[0, 1, 2]" [height]="34" />
+    }
+  </section>
+
+  <!-- Clan -------------------------------------------------------------- -->
+  @if (clan().error) {
+    <app-error-panel [error]="clan().error!" (retry)="retry()" />
+  } @else if (clan().data; as c) {
+    <section class="panel clan">
+      <div class="clan__head">
+        @if (c.badgeUrl) {
+          <img class="clan__badge" [src]="c.badgeUrl" [alt]="c.name" />
+        }
+        <div class="clan__title">
+          <h2 class="clan__name">{{ c.name }}</h2>
+          <div class="clan__chips">
+            <span class="chip mono">{{ c.tag }}</span>
+            <span class="chip chip--gold">Level {{ c.level }}</span>
+            <span class="chip">{{ c.members }} / 50 Mitglieder</span>
+            <span class="chip">{{ num(c.points) }} Punkte</span>
+            <span class="chip">{{ c.type }}</span>
+          </div>
+        </div>
+      </div>
+
+      @if (c.description) {
+        <p class="clan__desc muted">{{ c.description }}</p>
+      }
+
+      <div class="clan__stats">
+        <div class="clan__stat">
+          <span class="muted">Kriege gewonnen</span>
+          <strong class="mono">{{ c.warWins }}</strong>
+        </div>
+        @if (c.warLosses !== null) {
+          <div class="clan__stat">
+            <span class="muted">Verloren</span>
+            <strong class="mono">{{ c.warLosses }}</strong>
+          </div>
+        }
+        @if (c.warTies !== null) {
+          <div class="clan__stat">
+            <span class="muted">Unentschieden</span>
+            <strong class="mono">{{ c.warTies }}</strong>
+          </div>
+        }
+        <div class="clan__stat">
+          <span class="muted">Siegesserie</span>
+          <strong class="mono">{{ c.warWinStreak }}</strong>
+        </div>
+        <div class="clan__stat">
+          <span class="muted">Kriegsrhythmus</span>
+          <strong>{{ c.warFrequency }}</strong>
+        </div>
+        <div class="clan__stat">
+          <span class="muted">Mindest-Trophäen</span>
+          <strong class="mono">{{ c.requiredTrophies }}</strong>
+        </div>
+      </div>
+
+      @if (!c.isWarLogPublic) {
+        <p class="hint muted">
+          <mat-icon>lock</mat-icon>
+          Das Kriegslog dieses Clans ist privat. Deshalb liefert die API keine Kriegsdetails.
+        </p>
+      }
+    </section>
+
+    <section class="panel">
+      <div class="panel__head">
+        <h2 class="panel__title"><mat-icon aria-hidden="true">groups</mat-icon> Mitglieder (Top {{ c.topMembers.length }})</h2>
+      </div>
+
+      <div class="table-scroll">
+        <table class="members">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Rolle</th>
+              <th class="num">RH</th>
+              <th class="num">Trophäen</th>
+              <th class="num">Gespendet</th>
+              <th class="num">Erhalten</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (member of c.topMembers; track member.tag; let i = $index) {
+              <tr [class.members__me]="member.isMe">
+                <td class="mono muted">{{ i + 1 }}</td>
+                <td>
+                  <span class="members__name">
+                    @if (member.leagueIconUrl) {
+                      <img [src]="member.leagueIconUrl" alt="" width="22" height="22" />
+                    }
+                    {{ member.name }}
+                    @if (member.isMe) {
+                      <span class="chip chip--gold">du</span>
+                    }
+                  </span>
+                </td>
+                <td class="muted">{{ roleLabel(member.role) }}</td>
+                <td class="num mono">{{ member.townHallLevel ?? '–' }}</td>
+                <td class="num mono">{{ num(member.trophies) }}</td>
+                <td class="num mono">{{ num(member.donations) }}</td>
+                <td class="num mono muted">{{ num(member.donationsReceived) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  } @else {
+    <section class="panel">
+      <app-skeleton [rows]="[0, 1]" [height]="40" />
+    </section>
+    <section class="panel">
+      <app-skeleton [rows]="[0, 1, 2, 3, 4]" [height]="30" />
+    </section>
+  }
+</div>

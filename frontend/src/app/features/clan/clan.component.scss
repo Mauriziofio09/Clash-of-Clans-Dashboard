@@ -1,0 +1,130 @@
+.clan__name {
+  font-size: 1.4rem;
+}
+
+.clan__head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.clan__badge {
+  width: 66px;
+  height: 66px;
+  object-fit: contain;
+}
+
+.clan__chips {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.clan__desc {
+  margin: 0 0 18px;
+  max-width: 84ch;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.clan__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.clan__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px 13px;
+  border: 1px solid var(--coc-border);
+  border-radius: var(--coc-radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.clan__stat span {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.clan__stat strong {
+  font-size: 1.1rem;
+}
+
+.hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 0;
+  font-size: 0.86rem;
+}
+
+.hint mat-icon {
+  font-size: 17px;
+  width: 17px;
+  height: 17px;
+}
+
+/* Mitgliedertabelle ---------------------------------------------------- */
+.table-scroll {
+  overflow-x: auto;
+}
+
+.members {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  min-width: 620px;
+}
+
+.members th {
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 0.71rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--coc-text-muted);
+  border-bottom: 1px solid var(--coc-border);
+  font-weight: 600;
+}
+
+.members td {
+  padding: 9px 10px;
+  border-bottom: 1px solid rgba(47, 58, 82, 0.55);
+}
+
+.members tbody tr:hover {
+  background: var(--coc-surface-hover);
+}
+
+.members__me {
+  background: var(--coc-gold-soft);
+}
+
+.members__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.members__name img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.num {
+  text-align: right;
+}
+
+@media (max-width: 620px) {
+  .clan__badge {
+    width: 50px;
+    height: 50px;
+  }
+}

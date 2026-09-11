@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.angular/
+.DS_Store
+
+# Zugangsdaten - niemals einchecken
+.env
+backend/.env
+
+# Lokale Datenbank des Bau-Trackers
+backend/data/*.sqlite
+backend/data/*.sqlite-shm
+backend/data/*.sqlite-wal
+
+# IDE
+.idea/
+.vscode/
+*.log

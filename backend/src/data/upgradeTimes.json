@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "hinweis": "Zeitmodell des Planers. Es rechnet nicht über die rohe Levelzahl, sondern über das Rathaus-Level, bei dem eine Stufe freigeschaltet wird. Mörser 13 und Kanone 19 gehören beide zu Rathaus 14 und dauern deshalb ähnlich lang, obwohl die Zahlen weit auseinanderliegen.",
+    "rechenweg": "dauer = rathausKurve[freischaltendes Rathaus] * faktor. Der Faktor kommt aus gebaeudeFaktor, sonst aus kategorieFaktor.",
+    "genauigkeit": "ACHTUNG: Die Kurven sind gepflegte Näherungen, keine ausgelesenen Spielwerte. Der Planer weist jede daraus abgeleitete Zahl als Schätzung aus. Einzelne Werte lassen sich über PUT /api/planner/times überschreiben; solche Korrekturen liegen in der lokalen Datenbank und haben immer Vorrang.",
+    "geprueftHinweis": "Wer einen Gebäudetyp, eine Einheit oder einen Helden von Hand bestätigt hat, trägt den Schlüssel unter geprueft ein. Dann verschwindet die Schätzungs-Markierung im UI."
+  },
+  "rathausKurve": {
+    "2": 0.02,
+    "3": 0.1,
+    "4": 0.3,
+    "5": 1,
+    "6": 2,
+    "7": 4,
+    "8": 8,
+    "9": 16,
+    "10": 30,
+    "11": 48,
+    "12": 96,
+    "13": 144,
+    "14": 180,
+    "15": 216,
+    "16": 240,
+    "17": 264
+  },
+  "kategorieFaktor": {
+    "kern": 2,
+    "verteidigung": 1,
+    "armee": 0.9,
+    "ressourcen": 0.5,
+    "falle": 0.05,
+    "mauer": 0
+  },
+  "gebaeudeFaktor": {
+    "town-hall": 2,
+    "eagle-artillery": 1.15,
+    "monolith": 1.15,
+    "inferno-tower": 1.1,
+    "scattershot": 1.1,
+    "laboratory": 1.1,
+    "clan-castle": 1.1,
+    "pet-house": 1.2,
+    "blacksmith": 0.9,
+    "spell-factory": 0.8,
+    "dark-spell-factory": 0.7,
+    "barracks": 0.5,
+    "dark-barracks": 0.5,
+    "gold-mine": 0.4,
+    "elixir-collector": 0.4,
+    "dark-elixir-drill": 0.6,
+    "gold-storage": 0.7,
+    "elixir-storage": 0.7,
+    "dark-elixir-storage": 0.7,
+    "builder-hut": 0.15,
+    "helper-hut": 0.1,
+    "hero-hall": 1.0
+  },
+  "forschungKurve": {
+    "3": 0.5,
+    "4": 1,
+    "5": 2,
+    "6": 4,
+    "7": 8,
+    "8": 16,
+    "9": 30,
+    "10": 48,
+    "11": 84,
+    "12": 120,
+    "13": 168,
+    "14": 192,
+    "15": 216,
+    "16": 240,
+    "17": 264
+  },
+  "heldenKurve": {
+    "7": 1,
+    "8": 4,
+    "9": 8,
+    "10": 18,
+    "11": 36,
+    "12": 70,
+    "13": 120,
+    "14": 155,
+    "15": 185,
+    "16": 190,
+    "17": 200
+  },
+  "haustierKurve": {
+    "14": 72,
+    "15": 108,
+    "16": 138,
+    "17": 156
+  },
+  "geprueft": {
+    "gebaeude": [],
+    "forschung": [],
+    "helden": [],
+    "haustiere": []
+  }
+}

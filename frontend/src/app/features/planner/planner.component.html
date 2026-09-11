@@ -1,0 +1,402 @@
+<div class="page grid">
+  @if (service.error(); as err) {
+    <app-error-panel [error]="err" (retry)="reload()" />
+  } @else if (service.plan(); as plan) {
+    <!-- Kopf ------------------------------------------------------------- -->
+    <section class="panel head">
+      <div>
+        <h1>Upgrade-Planer</h1>
+        <p class="muted">
+          Truppen-, Zauber- und Heldenlevel kommen live aus der Spiele-API. Der Gebäudebestand wird
+          hier von Hand gepflegt, weil die API ihn nicht herausgibt.
+        </p>
+      </div>
+      <div class="head__th">
+        <span class="head__th-num mono">{{ plan.townHallLevel }}</span>
+        <span class="muted">Rathaus</span>
+      </div>
+    </section>
+
+    @if (plan.containsEstimates) {
+      <p class="notice" role="note">
+        <mat-icon aria-hidden="true">info</mat-icon>
+        <span>
+          Die Bauzeiten stammen aus einer Näherungskurve, nicht aus ausgelesenen Spielwerten. Sie
+          sind zum Planen brauchbar, aber nicht auf die Minute genau. Korrigieren lassen sie sich in
+          <span class="mono">backend/src/data/upgradeTimes.json</span> oder einzeln über die
+          Endpunkte des Planers.
+        </span>
+      </p>
+    }
+
+    <!-- Kernaussagen ------------------------------------------------------ -->
+    <section class="headline">
+      <div class="headline__box">
+        <span class="headline__label">Alles auf Rathaus {{ plan.townHallLevel }} fertig</span>
+        <strong class="headline__value">{{ rough(plan.maxedInSeconds) }}</strong>
+        <span class="muted">voraussichtlich am {{ day(plan.maxedAt) }}</span>
+      </div>
+
+      @if (plan.nextTownHallLevel !== null) {
+        <div class="headline__box headline__box--accent">
+          <span class="headline__label">Bereit für Rathaus {{ plan.nextTownHallLevel }}</span>
+          <strong class="headline__value">{{ day(plan.nextTownHallAt) }}</strong>
+          <span class="muted">
+            inklusive {{ rough(plan.townHallUpgradeSeconds) }} für das Rathaus selbst
+          </span>
+        </div>
+      } @else {
+        <div class="headline__box">
+          <span class="headline__label">Nächstes Rathaus</span>
+          <strong class="headline__value">Höchststufe</strong>
+          <span class="muted">Es gibt kein höheres Rathaus.</span>
+        </div>
+      }
+    </section>
+
+    <!-- Restaufwand ------------------------------------------------------- -->
+    <section class="panel">
+      <div class="panel__head">
+        <h2 class="panel__title"><mat-icon aria-hidden="true">pending_actions</mat-icon> Restaufwand</h2>
+        <span class="muted">Die vier Bereiche laufen parallel, es zählt der längste.</span>
+      </div>
+
+      <div class="backlogs">
+        <div class="backlog">
+          <div class="backlog__head">
+            <mat-icon aria-hidden="true">construction</mat-icon>
+            <span>Bauarbeiter</span>
+          </div>
+          <strong class="backlog__value mono">{{ rough(plan.builder.calendarSeconds) }}</strong>
+          <span class="muted">
+            {{ num(plan.builder.openUpgrades) }} Aufwertungen auf {{ plan.assumptions.bauarbeiter }} Bauarbeiter
+          </span>
+        </div>
+
+        <div class="backlog">
+          <div class="backlog__head">
+            <mat-icon aria-hidden="true">science</mat-icon>
+            <span>Labor</span>
+          </div>
+          <strong class="backlog__value mono">{{ rough(plan.lab.calendarSeconds) }}</strong>
+          <span class="muted">{{ num(plan.lab.openUpgrades) }} Forschungen, eine nach der anderen</span>
+        </div>
+
+        <div class="backlog">
+          <div class="backlog__head">
+            <mat-icon aria-hidden="true">pets</mat-icon>
+            <span>Haustiere</span>
+          </div>
+          <strong class="backlog__value mono">
+            {{ plan.pet.openUpgrades === 0 ? 'auf Maximum' : rough(plan.pet.calendarSeconds) }}
+          </strong>
+          <span class="muted">
+            @if (plan.pet.openUpgrades === 0) {
+              nichts offen
+            } @else {
+              {{ num(plan.pet.openUpgrades) }} Stufen im Haustierhaus
+            }
+          </span>
+        </div>
+
+        <div class="backlog">
+          <div class="backlog__head">
+            <mat-icon aria-hidden="true">shield_person</mat-icon>
+            <span>Helden</span>
+          </div>
+          <strong class="backlog__value mono">
+            {{ plan.hero.openUpgrades === 0 ? 'über Bauarbeiter' : rough(plan.hero.calendarSeconds) }}
+          </strong>
+          <span class="muted">
+            @if (plan.hero.openUpgrades === 0) {
+              Helden belegen laut Annahme einen Bauarbeiter
+            } @else {
+              {{ num(plan.hero.openUpgrades) }} Stufen auf {{ heroSlotLabel(plan) }}
+            }
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Annahmen ---------------------------------------------------------- -->
+    <section class="panel">
+      <div class="panel__head">
+        <h2 class="panel__title"><mat-icon aria-hidden="true">tune</mat-icon> Annahmen</h2>
+        <span class="muted">Alles hier fließt in die Rechnung ein und ist änderbar.</span>
+      </div>
+
+      <div class="assumptions">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Bauarbeiter</mat-label>
+          <input
+            matInput
+            type="number"
+            min="1"
+            max="12"
+            [value]="plan.assumptions.bauarbeiter"
+            (change)="onNumberAssumption('bauarbeiter', $any($event.target).value)"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Helden gleichzeitig</mat-label>
+          <input
+            matInput
+            type="number"
+            min="1"
+            max="5"
+            [value]="plan.assumptions.heldenGleichzeitig"
+            (change)="onNumberAssumption('heldenGleichzeitig', $any($event.target).value)"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Aktive Stunden pro Tag</mat-label>
+          <input
+            matInput
+            type="number"
+            min="1"
+            max="24"
+            [value]="plan.assumptions.aktiveStundenProTag"
+            (change)="onNumberAssumption('aktiveStundenProTag', $any($event.target).value)"
+          />
+        </mat-form-field>
+
+        <mat-checkbox
+          [checked]="plan.assumptions.heldenBelegenBauarbeiter"
+          (change)="updateAssumption({ heldenBelegenBauarbeiter: $event.checked })"
+        >
+          Helden belegen einen Bauarbeiter
+        </mat-checkbox>
+
+        <mat-checkbox
+          [checked]="plan.assumptions.mauernEinrechnen"
+          (change)="updateAssumption({ mauernEinrechnen: $event.checked })"
+        >
+          Mauern mitzählen
+        </mat-checkbox>
+      </div>
+    </section>
+
+    <!-- Vorschläge -------------------------------------------------------- -->
+    <section class="panel">
+      <div class="panel__head">
+        <h2 class="panel__title"><mat-icon aria-hidden="true">playlist_add_check</mat-icon> Das solltest du als Nächstes ausbauen</h2>
+      </div>
+
+      @if (plan.tasks.length === 0) {
+        <app-empty-state
+          icon="celebration"
+          title="Nichts mehr offen"
+          text="Auf diesem Rathaus ist alles auf Maximum. Zeit für den Wechsel aufs nächste Rathaus."
+        />
+      } @else {
+        <ol class="tasks">
+          @for (task of plan.tasks; track task.kind + task.key) {
+            <li class="task" [class.task--running]="task.inProgress">
+              <span class="task__rank mono">{{ $index + 1 }}</span>
+              <span class="task__slot" [attr.title]="slotLabel(task)">
+                <mat-icon aria-hidden="true">{{ slotIcon(task) }}</mat-icon>
+              </span>
+              <span class="task__body">
+                <span class="task__name">
+                  {{ task.name }}
+                  <span class="muted mono">{{ task.fromLevel }} &rarr; {{ task.toLevel }}</span>
+                  @if (task.inProgress) {
+                    <span class="chip chip--info">läuft</span>
+                  }
+                </span>
+                <span class="task__reasons muted">{{ task.reasons.join(' · ') }}</span>
+              </span>
+              <span class="task__time mono">
+                {{ rough(task.seconds) }}
+                @if (task.estimated) {
+                  <mat-icon
+                    class="task__est"
+                    matTooltip="Geschätzt aus der Näherungskurve"
+                    aria-label="Geschätzter Wert"
+                    >help_outline</mat-icon
+                  >
+                }
+              </span>
+            </li>
+          }
+        </ol>
+      }
+    </section>
+
+    <!-- Booster-Szenarien ------------------------------------------------- -->
+    <section class="panel">
+      <div class="panel__head">
+        <h2 class="panel__title"><mat-icon aria-hidden="true">bolt</mat-icon> Was Booster daran ändern</h2>
+        <span class="muted">Grobe Rechnung auf Basis des aktuellen Restaufwands.</span>
+      </div>
+
+      <div class="scenarios">
+        @for (scenario of plan.scenarios; track scenario.label) {
+          <div class="scenario">
+            <span class="scenario__label">{{ scenario.label }}</span>
+            <strong class="scenario__saved mono">&minus;{{ rough(scenario.savedSeconds) }}</strong>
+            <span class="muted">fertig am {{ day(scenario.readyAt) }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Gebäudebestand ---------------------------------------------------- -->
+    <section class="panel">
+      <div class="panel__head">
+        <h2 class="panel__title"><mat-icon aria-hidden="true">home_work</mat-icon> Gebäudebestand</h2>
+        <div class="inv__actions">
+          <button mat-button [attr.aria-expanded]="showInventory()" (click)="showInventory.set(!showInventory())">
+            <mat-icon>{{ showInventory() ? 'expand_less' : 'expand_more' }}</mat-icon>
+            {{ showInventory() ? 'Einklappen' : 'Bestand pflegen' }}
+          </button>
+          <button mat-button color="warn" (click)="resetInventory()">Zurücksetzen</button>
+        </div>
+      </div>
+
+      @if (plan.inventoryIsDefault) {
+        <p class="notice notice--warn" role="note">
+          <mat-icon aria-hidden="true">rule</mat-icon>
+          <span>
+            Es ist noch kein Gebäude erfasst. Bis dahin rechnet der Planer mit der Annahme, dass
+            alles auf dem Höchstlevel des vorherigen Rathauses steht. Trage deinen Bestand ein,
+            damit die Zahlen stimmen.
+          </span>
+        </p>
+      } @else if (pendingInventory() > 0) {
+        <p class="notice" role="note">
+          <mat-icon aria-hidden="true">rule</mat-icon>
+          <span>{{ pendingInventory() }} Gebäudetypen sind noch nicht erfasst und laufen über die Annahme.</span>
+        </p>
+      }
+
+      @if (showInventory()) {
+        @for (group of grouped(); track group.category) {
+          <h3 class="inv__group">{{ categoryLabels[group.category] }}</h3>
+          <ul class="inv" role="list">
+            @for (entry of group.entries; track entry.id) {
+              <li class="inv__row" [class.inv__row--default]="entry.usesDefault">
+                <span class="inv__name">
+                  {{ entry.name }}
+                  @if (entry.usesDefault && entry.id !== 'town-hall') {
+                    <span class="chip chip--warn">Annahme</span>
+                  }
+                </span>
+
+                <span class="inv__levels">
+                  @for (level of entry.levels; track level.level) {
+                    <span class="chip mono">{{ level.count }}&times; Lvl {{ level.level }}</span>
+                  }
+                  @if (entry.missing > 0) {
+                    <span class="chip chip--danger">{{ entry.missing }} fehlt</span>
+                  }
+                </span>
+
+                <span class="inv__meta muted mono">
+                  max {{ entry.maxLevel }} ·
+                  @if (entry.openUpgrades === 0) {
+                    auf Maximum
+                  } @else {
+                    {{ entry.openUpgrades }} offen · {{ rough(entry.remainingSeconds) }}
+                  }
+                </span>
+
+                @if (entry.id === 'town-hall') {
+                  <span class="muted inv__locked">kommt aus der API</span>
+                } @else {
+                  <button
+                    mat-stroked-button
+                    (click)="startEdit(entry)"
+                    [attr.aria-label]="entry.name + ' bearbeiten'"
+                  >
+                    Bearbeiten
+                  </button>
+                }
+
+                @if (editing()?.buildingId === entry.id) {
+                  <div class="editor">
+                    <div class="editor__bulk">
+                      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <mat-label>Alle {{ entry.available }} auf Level</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          min="1"
+                          [max]="entry.maxLevel"
+                          [value]="editing()!.bulkLevel"
+                          (input)="setBulkLevel($any($event.target).value)"
+                        />
+                      </mat-form-field>
+                      <button mat-flat-button color="primary" type="button" (click)="applyBulk(entry)">
+                        Übernehmen
+                      </button>
+                    </div>
+
+                    <p class="muted editor__hint">
+                      Oder einzeln aufteilen, wenn die Exemplare unterschiedlich weit sind.
+                    </p>
+
+                    @for (row of editing()!.rows; track $index) {
+                      <div class="editor__row">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                          <mat-label>Level</mat-label>
+                          <input
+                            matInput
+                            type="number"
+                            min="1"
+                            [max]="entry.maxLevel"
+                            [value]="row.level"
+                            (input)="patchRow($index, { level: +$any($event.target).value })"
+                          />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                          <mat-label>Anzahl</mat-label>
+                          <input
+                            matInput
+                            type="number"
+                            min="0"
+                            [max]="entry.available"
+                            [value]="row.count"
+                            (input)="patchRow($index, { count: +$any($event.target).value })"
+                          />
+                        </mat-form-field>
+                        <button
+                          mat-icon-button
+                          type="button"
+                          aria-label="Zeile entfernen"
+                          (click)="removeRow($index)"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    }
+
+                    <div class="editor__actions">
+                      <button mat-button type="button" (click)="addRow()">
+                        <mat-icon>add</mat-icon> Level hinzufügen
+                      </button>
+                      <span class="editor__spacer"></span>
+                      <button mat-flat-button color="primary" type="button" (click)="saveEdit(entry)">
+                        Speichern
+                      </button>
+                      <button mat-button type="button" (click)="cancelEdit()">Abbrechen</button>
+                    </div>
+                  </div>
+                }
+              </li>
+            }
+          </ul>
+        }
+      }
+    </section>
+  } @else {
+    <section class="panel">
+      <app-skeleton [rows]="[0, 1]" [height]="30" />
+    </section>
+    <section class="panel">
+      <app-skeleton [rows]="[0, 1, 2, 3, 4]" [height]="40" />
+    </section>
+  }
+</div>

@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "stand": "Update 2025 / Rathaus 17",
+    "hinweis": "Wissensdatenbank der Beschleuniger. Jeder Eintrag beschreibt, wie das Mittel auf eine laufende Aufwertung wirkt. Die Werte lassen sich nach einem Balance-Update hier ohne Code-Änderung korrigieren.",
+    "wirkungsarten": {
+      "speedup": "Läuft für dauerSekunden in Echtzeit und lässt den Fortschritt in dieser Zeit mit faktor-facher Geschwindigkeit laufen.",
+      "instant": "Stellt die Aufwertung im Moment der Anwendung sofort fertig.",
+      "skip": "Überspringt eine frei eingegebene Restzeit, z. B. beim Freikaufen mit Edelsteinen.",
+      "battle": "Wirkt nur im Kampf und verändert keine Bauzeit. Wird im Bau-Tracker deshalb nicht angeboten."
+    },
+    "stapelung": "Überlappen sich mehrere speedup-Booster, gilt der höchste Faktor. Sie multiplizieren sich nicht."
+  },
+  "boosts": [
+    {
+      "id": "builder-potion",
+      "name": "Bauarbeiter-Trank",
+      "shortName": "Bau-Trank",
+      "icon": "science",
+      "effect": "speedup",
+      "factor": 10,
+      "durationSeconds": 3600,
+      "appliesTo": ["building", "wall", "hero"],
+      "village": "home",
+      "description": "Eine Stunde lang arbeiten alle Bauarbeiter zehnmal so schnell. Spart bei einer ausreichend langen Aufwertung bis zu 9 Stunden."
+    },
+    {
+      "id": "research-potion",
+      "name": "Forschungstrank",
+      "shortName": "Forschungstrank",
+      "icon": "biotech",
+      "effect": "speedup",
+      "factor": 24,
+      "durationSeconds": 3600,
+      "appliesTo": ["troop", "spell"],
+      "village": "home",
+      "description": "Eine Stunde lang forscht das Labor vierundzwanzigmal so schnell. Spart bei einer ausreichend langen Forschung bis zu 23 Stunden."
+    },
+    {
+      "id": "clock-tower-boost",
+      "name": "Uhrturm-Boost",
+      "shortName": "Uhrturm",
+      "icon": "schedule",
+      "effect": "speedup",
+      "factor": 10,
+      "durationSeconds": 1800,
+      "appliesTo": ["building", "wall", "troop", "other"],
+      "village": "builder",
+      "description": "Beschleunigt die Bauerbasis für 30 Minuten um das Zehnfache. Der genaue Faktor hängt vom Level des Uhrturms ab und lässt sich in boosts.json anpassen."
+    },
+    {
+      "id": "book-of-building",
+      "name": "Buch der Gebäude",
+      "shortName": "Buch Gebäude",
+      "icon": "menu_book",
+      "effect": "instant",
+      "appliesTo": ["building", "wall"],
+      "village": "home",
+      "description": "Stellt eine Gebäude-Aufwertung sofort fertig, unabhängig von der Restzeit."
+    },
+    {
+      "id": "book-of-heroes",
+      "name": "Buch der Helden",
+      "shortName": "Buch Helden",
+      "icon": "menu_book",
+      "effect": "instant",
+      "appliesTo": ["hero"],
+      "village": "home",
+      "description": "Stellt eine Helden-Aufwertung sofort fertig."
+    },
+    {
+      "id": "book-of-spells",
+      "name": "Buch der Zauber",
+      "shortName": "Buch Zauber",
+      "icon": "menu_book",
+      "effect": "instant",
+      "appliesTo": ["spell"],
+      "village": "home",
+      "description": "Stellt eine Zauber-Forschung sofort fertig."
+    },
+    {
+      "id": "book-of-fighting",
+      "name": "Buch der Kämpfe",
+      "shortName": "Buch Kämpfe",
+      "icon": "menu_book",
+      "effect": "instant",
+      "appliesTo": ["troop"],
+      "village": "home",
+      "description": "Stellt eine Truppen-Forschung sofort fertig."
+    },
+    {
+      "id": "book-of-everything",
+      "name": "Buch von allem",
+      "shortName": "Buch von allem",
+      "icon": "auto_stories",
+      "effect": "instant",
+      "appliesTo": ["building", "wall", "troop", "spell", "hero", "pet", "other"],
+      "village": "home",
+      "description": "Stellt jede beliebige Aufwertung sofort fertig."
+    },
+    {
+      "id": "hammer-of-building",
+      "name": "Hammer der Gebäude",
+      "shortName": "Hammer Gebäude",
+      "icon": "gavel",
+      "effect": "instant",
+      "free": true,
+      "appliesTo": ["building", "wall"],
+      "village": "home",
+      "description": "Schließt eine Gebäude-Aufwertung sofort ab und kostet dabei keine Ressourcen."
+    },
+    {
+      "id": "hammer-of-heroes",
+      "name": "Hammer der Helden",
+      "shortName": "Hammer Helden",
+      "icon": "gavel",
+      "effect": "instant",
+      "free": true,
+      "appliesTo": ["hero"],
+      "village": "home",
+      "description": "Schließt eine Helden-Aufwertung sofort ab und kostet dabei keine Ressourcen."
+    },
+    {
+      "id": "hammer-of-spells",
+      "name": "Hammer der Zauber",
+      "shortName": "Hammer Zauber",
+      "icon": "gavel",
+      "effect": "instant",
+      "free": true,
+      "appliesTo": ["spell"],
+      "village": "home",
+      "description": "Schließt eine Zauber-Forschung sofort ab und kostet dabei keine Ressourcen."
+    },
+    {
+      "id": "hammer-of-fighting",
+      "name": "Hammer der Kämpfe",
+      "shortName": "Hammer Kämpfe",
+      "icon": "gavel",
+      "effect": "instant",
+      "free": true,
+      "appliesTo": ["troop"],
+      "village": "home",
+      "description": "Schließt eine Truppen-Forschung sofort ab und kostet dabei keine Ressourcen."
+    },
+    {
+      "id": "gem-skip",
+      "name": "Mit Edelsteinen freikaufen",
+      "shortName": "Edelsteine",
+      "icon": "diamond",
+      "effect": "skip",
+      "requiresAmount": true,
+      "appliesTo": ["building", "wall", "troop", "spell", "hero", "pet", "other"],
+      "village": "home",
+      "description": "Überspringt eine frei eingegebene Restzeit. Trage ein, wie viel Zeit du dir freigekauft hast."
+    },
+    {
+      "id": "hero-potion",
+      "name": "Heldentrank",
+      "shortName": "Heldentrank",
+      "icon": "sports_martial_arts",
+      "effect": "battle",
+      "appliesTo": [],
+      "village": "home",
+      "description": "Setzt die Helden für einige Angriffe auf Maximallevel. Wirkt nur im Kampf und verkürzt keine Aufwertung, deshalb im Bau-Tracker nicht auswählbar."
+    },
+    {
+      "id": "training-potion",
+      "name": "Trainingstrank",
+      "shortName": "Trainingstrank",
+      "icon": "sports_martial_arts",
+      "effect": "battle",
+      "appliesTo": [],
+      "village": "home",
+      "description": "Hebt die Truppen für einige Angriffe auf ein höheres Level. Wirkt nur im Kampf und verkürzt keine Aufwertung, deshalb im Bau-Tracker nicht auswählbar."
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+<div class="page grid">
+  @if (service.error(); as err) {
+    <app-error-panel [error]="err" (retry)="reload()" />
+  } @else if (service.advice(); as advice) {
+    <section class="panel intro">
+      <div>
+        <h1>Angriffsstrategie-Berater</h1>
+        <p class="muted">
+          Vorschläge für Rathaus {{ advice.townHallLevel }}, abgeglichen mit deinen tatsächlichen
+          Truppen-, Zauber- und Heldenleveln. Die Regeln liegen als JSON im Backend und lassen sich
+          dort jederzeit erweitern.
+        </p>
+      </div>
+      <div class="intro__actions">
+        <div class="focus" role="group" aria-label="Einsatzzweck">
+          @for (option of focusOptions; track option.value) {
+            <button
+              type="button"
+              class="focus__btn"
+              [class.focus__btn--active]="focus() === option.value"
+              (click)="setFocus(option.value)"
+            >
+              {{ option.label }}
+            </button>
+          }
+        </div>
+        <button mat-stroked-button (click)="showMore()">
+          <mat-icon>{{ limit() === 3 ? 'expand_more' : 'expand_less' }}</mat-icon>
+          {{ limit() === 3 ? 'Mehr Vorschläge' : 'Weniger anzeigen' }}
+        </button>
+      </div>
+    </section>
+
+    @for (suggestion of advice.suggestions; track suggestion.rule.id) {
+      <article class="panel strategy">
+        <header class="strategy__head">
+          <div class="strategy__title">
+            <h2>{{ suggestion.rule.name }}</h2>
+            <div class="strategy__chips">
+              <span class="chip" [class]="difficultyClass(suggestion.rule.difficulty)">
+                {{ suggestion.rule.difficulty }}
+              </span>
+              <span class="chip">
+                RH {{ suggestion.rule.minTownHall }}–{{ suggestion.rule.maxTownHall }}
+              </span>
+              @for (tag of suggestion.rule.tags; track tag) {
+                <span class="chip">{{ tag }}</span>
+              }
+            </div>
+          </div>
+
+          <div class="score" [class]="scoreClass(suggestion.score)">
+            <span class="score__num mono">{{ suggestion.score }}</span>
+            <span class="score__label">Passung</span>
+          </div>
+        </header>
+
+        <p class="strategy__summary">{{ suggestion.rule.summary }}</p>
+
+        @if (suggestion.missing.length > 0 || suggestion.underleveled.length > 0) {
+          <div class="gaps">
+            @if (suggestion.missing.length > 0) {
+              <div class="gaps__row">
+                <mat-icon>block</mat-icon>
+                <span><strong>Fehlt komplett:</strong> {{ suggestion.missing.join(', ') }}</span>
+              </div>
+            }
+            @if (suggestion.underleveled.length > 0) {
+              <div class="gaps__row">
+                <mat-icon>trending_up</mat-icon>
+                <span><strong>Zu niedriges Level:</strong> {{ suggestion.underleveled.join(', ') }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        <div class="strategy__body">
+          <div class="reqs">
+            <h3>Armee</h3>
+            @for (block of [
+              { label: 'Truppen', items: suggestion.requirements.troops },
+              { label: 'Zauber', items: suggestion.requirements.spells },
+              { label: 'Belagerung', items: suggestion.requirements.sieges },
+              { label: 'Helden', items: suggestion.requirements.heroes }
+            ]; track block.label) {
+              @if (block.items.length > 0) {
+                <div class="reqs__block">
+                  <span class="reqs__label">{{ block.label }}</span>
+                  <ul>
+                    @for (check of block.items; track check.name) {
+                      <li [class.req--met]="check.met" [class.req--optional]="check.optional">
+                        <mat-icon>{{ check.met ? 'check_circle' : check.optional ? 'radio_button_unchecked' : 'cancel' }}</mat-icon>
+                        <span class="req__name">{{ requirementLabel(check) }}</span>
+                        <span class="req__level mono">
+                          {{ check.actual }} / {{ check.required }}
+                        </span>
+                        @if (check.optional) {
+                          <span class="req__opt muted">optional</span>
+                        }
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+            }
+          </div>
+
+          <div class="howto">
+            <h3>Ablauf</h3>
+            <ol class="steps">
+              @for (step of suggestion.rule.steps; track step) {
+                <li>{{ step }}</li>
+              }
+            </ol>
+
+            <h3>Tipps</h3>
+            <ul class="tips">
+              @for (tip of suggestion.rule.tips; track tip) {
+                <li><mat-icon>tips_and_updates</mat-icon><span>{{ tip }}</span></li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <footer class="note">
+          @if (editingNote() === suggestion.rule.id) {
+            <mat-form-field appearance="outline" class="note__field" subscriptSizing="dynamic">
+              <mat-label>Eigene Notiz</mat-label>
+              <textarea
+                matInput
+                rows="3"
+                [ngModel]="noteDraft()"
+                (ngModelChange)="noteDraft.set($event)"
+              ></textarea>
+            </mat-form-field>
+            <div class="note__actions">
+              <button mat-flat-button color="primary" (click)="saveNote(suggestion.rule.id)">
+                Speichern
+              </button>
+              <button mat-button (click)="cancelNote()">Abbrechen</button>
+            </div>
+          } @else if (suggestion.note) {
+            <div class="note__view">
+              <mat-icon>sticky_note_2</mat-icon>
+              <p>{{ suggestion.note }}</p>
+              <button mat-icon-button matTooltip="Notiz bearbeiten" (click)="startNote(suggestion)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          } @else {
+            <button mat-button (click)="startNote(suggestion)">
+              <mat-icon>add_comment</mat-icon>
+              Notiz hinzufügen
+            </button>
+          }
+        </footer>
+      </article>
+    } @empty {
+      <app-empty-state
+        icon="lightbulb"
+        title="Keine passende Strategie hinterlegt"
+        text="Für dieses Rathaus-Level und diesen Einsatzzweck gibt es noch keine Regel. Eigene Strategien lassen sich in backend/src/data/strategies.json ergänzen."
+      />
+    }
+
+    @if (advice.alsoConsidered.length > 0) {
+      <section class="panel">
+        <div class="panel__head">
+          <h2 class="panel__title"><mat-icon aria-hidden="true">more_horiz</mat-icon> Ebenfalls geprüft</h2>
+        </div>
+        <div class="also">
+          @for (item of advice.alsoConsidered; track item.id) {
+            <span class="chip">
+              {{ item.name }}
+              <span class="mono muted">{{ item.score }}</span>
+            </span>
+          }
+        </div>
+      </section>
+    }
+  } @else {
+    <section class="panel">
+      <app-skeleton [rows]="[0, 1]" [height]="28" />
+    </section>
+    @for (block of [0, 1, 2]; track block) {
+      <section class="panel">
+        <app-skeleton [rows]="[0, 1, 2, 3]" [height]="36" />
+      </section>
+    }
+  }
+</div>

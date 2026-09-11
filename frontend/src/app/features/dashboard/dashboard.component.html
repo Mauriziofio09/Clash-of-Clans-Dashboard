@@ -1,0 +1,211 @@
+<div class="page grid">
+  @if (player().error) {
+    <app-error-panel [error]="player().error!" (retry)="retry()" />
+  }
+
+  <!-- Jetzt wichtig ------------------------------------------------------- -->
+  <section class="focus" aria-label="Was jetzt ansteht">
+    @for (card of focus(); track card.label) {
+      <a class="fcard" [class]="'fcard--' + card.tone" [routerLink]="card.link">
+        <mat-icon class="fcard__icon" aria-hidden="true">{{ card.icon }}</mat-icon>
+        <span class="fcard__label">{{ card.label }}</span>
+        <strong class="fcard__value mono">{{ card.value }}</strong>
+        <span class="fcard__detail">{{ card.detail }}</span>
+      </a>
+    }
+  </section>
+
+  @if (player().data; as p) {
+    <!-- Spielerkarte ----------------------------------------------------- -->
+    <section class="hero panel">
+      <div class="hero__identity">
+        <div class="hero__th">
+          <span class="hero__th-num mono">{{ p.townHallLevel }}</span>
+          <span class="hero__th-label">Rathaus</span>
+        </div>
+
+        <div class="hero__name">
+          <h1>{{ p.name }}</h1>
+          <div class="hero__meta">
+            <span class="chip mono">{{ p.tag }}</span>
+            <span class="chip">XP {{ p.expLevel }}</span>
+            @if (p.role) {
+              <span class="chip">{{ p.role }}</span>
+            }
+            @if (p.warPreference) {
+              <span class="chip" [class.chip--success]="p.warPreference === 'in'">
+                Krieg: {{ p.warPreference === 'in' ? 'angemeldet' : 'abgemeldet' }}
+              </span>
+            }
+            @if (p.townHallWeaponLevel) {
+              <span class="chip chip--gold">Waffe Lvl {{ p.townHallWeaponLevel }}</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__badges">
+        @if (p.league; as league) {
+          <div class="hero__badge">
+            @if (league.iconUrl) {
+              <img [src]="league.iconUrl" [alt]="'Liga ' + league.name" width="40" height="40" />
+            }
+            <div>
+              <span class="hero__badge-label">Liga</span>
+              <strong>{{ league.name }}</strong>
+            </div>
+          </div>
+        }
+        @if (p.clan; as clan) {
+          <div class="hero__badge">
+            @if (clan.badgeUrl) {
+              <img [src]="clan.badgeUrl" [alt]="'Wappen von ' + clan.name" width="40" height="40" />
+            }
+            <div>
+              <span class="hero__badge-label">Clan (Level {{ clan.level }})</span>
+              <strong>{{ clan.name }}</strong>
+            </div>
+          </div>
+        } @else {
+          <div class="hero__badge">
+            <mat-icon aria-hidden="true">group_off</mat-icon>
+            <div>
+              <span class="hero__badge-label">Clan</span>
+              <strong>Kein Clan</strong>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Kennzahlen ------------------------------------------------------- -->
+    <section class="stats" aria-label="Kennzahlen">
+      <app-stat-card
+        label="Trophäen"
+        [value]="num(p.trophies)"
+        icon="emoji_events"
+        [sub]="'Bestwert ' + num(p.bestTrophies)"
+        accent="var(--coc-gold)"
+      />
+      <app-stat-card label="Kriegssterne" [value]="num(p.warStars)" icon="star" accent="var(--coc-info)" />
+      <app-stat-card
+        label="Angriffe gewonnen"
+        [value]="num(p.attackWins)"
+        icon="local_fire_department"
+        [sub]="'Verteidigt ' + num(p.defenseWins)"
+        accent="var(--coc-warn)"
+      />
+      <app-stat-card
+        label="Spenden"
+        [value]="num(p.donations)"
+        icon="volunteer_activism"
+        [sub]="'Erhalten ' + num(p.donationsReceived) + ' · Verhältnis ' + donationRatio()"
+        accent="var(--coc-elixir)"
+      />
+      @if (troops().data; as t) {
+        <app-stat-card
+          label="Laborfortschritt"
+          [value]="t.overallPercent + ' %'"
+          icon="science"
+          sub="Bezogen auf das aktuelle Rathaus"
+          accent="var(--coc-success)"
+        />
+      }
+      @if (p.builderHallLevel) {
+        <app-stat-card
+          label="Bauhalle"
+          [value]="p.builderHallLevel"
+          icon="handyman"
+          [sub]="num(p.builderBaseTrophies ?? 0) + ' Trophäen'"
+          accent="var(--coc-dark-elixir)"
+        />
+      }
+    </section>
+
+    <!-- Verlauf + Krieg --------------------------------------------------- -->
+    <div class="split">
+      <section class="panel">
+        <div class="panel__head">
+          <h2 class="panel__title"><mat-icon aria-hidden="true">show_chart</mat-icon> Trophäen-Verlauf</h2>
+          <span class="muted">{{ messpunkte() }}</span>
+        </div>
+
+        <!-- Chart.js wird erst geladen, wenn das Diagramm sichtbar wird. -->
+        @defer (on viewport) {
+          <app-trophy-chart [points]="history().data ?? []" />
+        } @placeholder {
+          <app-skeleton [rows]="[0]" [height]="240" [radius]="10" />
+        } @loading {
+          <app-skeleton [rows]="[0]" [height]="240" [radius]="10" />
+        }
+      </section>
+
+      <section class="panel">
+        <div class="panel__head">
+          <h2 class="panel__title"><mat-icon aria-hidden="true">shield</mat-icon> Clankrieg</h2>
+          <a mat-button color="primary" routerLink="/clan">Details</a>
+        </div>
+
+        @if (war().error) {
+          <app-error-panel [error]="war().error!" [compact]="true" (retry)="retry()" />
+        } @else if (war().data; as w) {
+          <app-war-status [war]="w" />
+        } @else {
+          <app-skeleton [rows]="[0, 1, 2]" [height]="34" />
+        }
+      </section>
+    </div>
+
+    <!-- Bau-Tracker Kurzstatus -------------------------------------------- -->
+    <section class="panel">
+      <div class="panel__head">
+        <h2 class="panel__title"><mat-icon aria-hidden="true">construction</mat-icon> Laufende Upgrades</h2>
+        <a mat-button color="primary" routerLink="/bau">Bau-Tracker öffnen</a>
+      </div>
+
+      @if (readyBuilds().length > 0) {
+        <div class="ready">
+          <mat-icon aria-hidden="true">notifications_active</mat-icon>
+          <div>
+            <strong>{{ readyBuilds().length }} Upgrade(s) fertig</strong>
+            <span class="muted">{{ readyBuilds()[0].name }}</span>
+          </div>
+          <a mat-flat-button color="primary" routerLink="/bau">Abhaken</a>
+        </div>
+      }
+
+      @if (nextBuild(); as next) {
+        <div class="next">
+          <div class="next__text">
+            <span class="muted">Als Nächstes fertig</span>
+            <strong>{{ next.name }}@if (next.targetLevel) { · Level {{ next.targetLevel }} }</strong>
+            <span class="muted">
+              @if (next.builder) {
+                {{ next.builder }}
+              }
+              @if (next.savedSeconds > 0) {
+                · durch Booster verkürzt
+              }
+            </span>
+          </div>
+          <span class="next__time mono">{{ format(next.secondsLeft) }}</span>
+        </div>
+      } @else if (readyBuilds().length === 0) {
+        <app-empty-state
+          icon="hourglass_empty"
+          title="Keine laufenden Upgrades"
+          text="Die Clash-of-Clans-API liefert keine Bau-Timer. Trage im Bau-Tracker ein, was gerade läuft, dann erscheint hier der Countdown."
+        />
+      }
+    </section>
+  } @else {
+    <section class="panel">
+      <app-skeleton [rows]="[0, 1]" [height]="40" />
+    </section>
+    <section class="stats">
+      @for (i of [0, 1, 2, 3]; track i) {
+        <app-skeleton [rows]="[0]" [height]="72" [radius]="9" />
+      }
+    </section>
+  }
+</div>

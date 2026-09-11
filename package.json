@@ -1,0 +1,17 @@
+{
+  "name": "clash-of-clans-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lokal laufendes Clash of Clans Dashboard: Live-Daten, manueller Bau-Tracker und Angriffsstrategie-Berater",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "start": "concurrently -n backend,frontend -c yellow,cyan \"npm run dev --prefix backend\" \"npm start --prefix frontend\"",
+    "start:backend": "npm run dev --prefix backend",
+    "start:frontend": "npm start --prefix frontend",
+    "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "typecheck": "npm run typecheck --prefix backend && npm run typecheck --prefix frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

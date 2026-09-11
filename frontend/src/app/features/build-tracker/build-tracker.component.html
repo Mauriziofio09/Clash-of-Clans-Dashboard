@@ -1,0 +1,394 @@
+<div class="page grid">
+  @if (service.error(); as err) {
+    <app-error-panel [error]="err" (retry)="service.reload()" />
+  }
+
+  <!-- Eingabeformular --------------------------------------------------- -->
+  <section class="panel">
+    <div class="panel__head">
+      <h1 class="panel__title">
+        <mat-icon aria-hidden="true">{{ isEditing() ? 'edit' : 'add_circle' }}</mat-icon>
+        {{ isEditing() ? 'Upgrade bearbeiten' : 'Upgrade eintragen' }}
+      </h1>
+      @if (isEditing()) {
+        <button mat-button (click)="resetForm()">Abbrechen</button>
+      }
+    </div>
+
+    <p class="muted intro">
+      Die Clash-of-Clans-API gibt laufende Bauzeiten nicht heraus. Trage Start und Dauer hier
+      einmal ein, der Countdown läuft danach von selbst weiter.
+    </p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <mat-form-field appearance="outline" class="form__target">
+        <mat-label>Was wird ausgebaut?</mat-label>
+        <mat-select
+          [value]="form.controls.target.value"
+          (valueChange)="applyTarget($event)"
+          panelClass="target-panel"
+        >
+          @for (group of targetGroups(); track group.label) {
+            <mat-optgroup [label]="group.label">
+              @for (target of group.items; track targetValue(target)) {
+                <mat-option [value]="targetValue(target)">
+                  {{ target.name }} &nbsp;<strong>{{ target.fromLevel }} &rarr; {{ target.toLevel }}</strong>
+                  @if (target.count && target.count > 1) {
+                    &nbsp;· {{ target.count }} Stück
+                  }
+                  @if (target.inProgress) {
+                    &nbsp;· läuft bereits
+                  }
+                </mat-option>
+              }
+            </mat-optgroup>
+          }
+          <mat-option value="frei">Sonstiges, frei eintragen …</mat-option>
+        </mat-select>
+        <mat-hint>
+          {{ targetCount() }} offene Aufwertungen. Das Ziel-Level ergibt sich aus der Auswahl.
+        </mat-hint>
+        @if (form.controls.target.touched && form.controls.target.invalid) {
+          <mat-error>Bitte auswählen, was ausgebaut wird.</mat-error>
+        }
+      </mat-form-field>
+
+      @if (chosenTarget(); as target) {
+        <div class="chosen">
+          <mat-icon aria-hidden="true">{{ target.inProgress ? 'warning' : 'check_circle' }}</mat-icon>
+          <div class="chosen__text">
+            <strong>{{ target.name }}</strong>
+            <span class="muted">
+              Level {{ target.fromLevel }} &rarr; {{ target.toLevel }} ·
+              Dauer geschätzt {{ rough(target.seconds) }}
+              @if (target.inProgress) {
+                · steht bereits im Bau-Tracker
+              }
+            </span>
+          </div>
+        </div>
+      }
+
+      @if (freeEntry()) {
+        <mat-form-field appearance="outline" class="form__name">
+          <mat-label>Was wird ausgebaut?</mat-label>
+          <input matInput formControlName="name" placeholder="z. B. Doppelkanone auf der Bauerbasis" />
+          @if (form.controls.name.touched && form.controls.name.invalid) {
+            <mat-error>Bitte einen Namen eintragen.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Kategorie</mat-label>
+          <mat-select formControlName="category">
+            @for (entry of categories; track entry[0]) {
+              <mat-option [value]="entry[0]">{{ entry[1] }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Dorf</mat-label>
+          <mat-select formControlName="village">
+            @for (entry of villages; track entry[0]) {
+              <mat-option [value]="entry[0]">{{ entry[1] }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+
+      <mat-form-field appearance="outline" class="form__builder">
+        <mat-label>Bauarbeiter / Labor</mat-label>
+        <input matInput formControlName="builder" placeholder="z. B. Bauarbeiter 3" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form__started">
+        <mat-label>Startzeitpunkt</mat-label>
+        <input matInput type="datetime-local" formControlName="startedAt" />
+      </mat-form-field>
+
+      <div class="form__duration">
+        <span class="form__duration-label">Dauer</span>
+        <div class="form__duration-inputs">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Tage</mat-label>
+            <input matInput type="number" formControlName="days" min="0" max="60" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Stunden</mat-label>
+            <input matInput type="number" formControlName="hours" min="0" max="23" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Minuten</mat-label>
+            <input matInput type="number" formControlName="minutes" min="0" max="59" />
+          </mat-form-field>
+        </div>
+        <div class="presets">
+          <span class="muted">Häufig:</span>
+          <button type="button" class="preset" (click)="applyPreset(0, 12)">12 Std</button>
+          <button type="button" class="preset" (click)="applyPreset(1, 0)">1 Tag</button>
+          <button type="button" class="preset" (click)="applyPreset(3, 0)">3 Tage</button>
+          <button type="button" class="preset" (click)="applyPreset(7, 0)">7 Tage</button>
+          <button type="button" class="preset" (click)="applyPreset(14, 0)">14 Tage</button>
+          @if (durationSeconds() > 0) {
+            <span class="chip chip--gold mono">{{ format(durationSeconds()) }}</span>
+          }
+        </div>
+      </div>
+
+      <mat-form-field appearance="outline" class="form__notes">
+        <mat-label>Notiz</mat-label>
+        <textarea matInput formControlName="notes" rows="2"></textarea>
+      </mat-form-field>
+
+      <div class="form__actions">
+        <button mat-flat-button color="primary" type="submit" [disabled]="saving()">
+          <mat-icon aria-hidden="true">{{ isEditing() ? 'save' : 'add' }}</mat-icon>
+          {{ isEditing() ? 'Änderungen speichern' : 'Upgrade hinzufügen' }}
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Laufende Upgrades -------------------------------------------------- -->
+  <section class="panel">
+    <div class="panel__head">
+      <h2 class="panel__title"><mat-icon aria-hidden="true">hourglass_top</mat-icon> Laufend &amp; fertig</h2>
+      <span class="muted mono">
+        {{ summary().running }} laufend · {{ summary().ready }} fertig · {{ summary().completed }} erledigt
+      </span>
+    </div>
+
+    @if (service.loading() && service.active().length === 0) {
+      <app-skeleton [rows]="[0, 1, 2]" [height]="76" [radius]="9" />
+    } @else if (service.active().length === 0) {
+      <app-empty-state
+        icon="construction"
+        title="Noch keine Upgrades eingetragen"
+        text="Die Clash-of-Clans-API gibt laufende Bauzeiten nicht heraus. Trage oben ein, was gerade läuft, dann zählt das Dashboard sekundengenau herunter."
+      />
+    } @else {
+      <ul class="builds" role="list">
+        @for (build of service.active(); track build.id) {
+          <li class="build" [class.build--ready]="build.ready">
+            <div class="build__main">
+              <div class="build__title">
+                <span class="build__name">{{ build.name }}</span>
+                @if (build.targetLevel) {
+                  <span class="chip chip--gold">Lvl {{ build.targetLevel }}</span>
+                }
+                @if (build.builder) {
+                  <span class="chip">{{ build.builder }}</span>
+                }
+                @if (build.village === 'builder') {
+                  <span class="chip chip--info">Bauerbasis</span>
+                }
+                @if (build.targetKind) {
+                  <span
+                    class="chip chip--info"
+                    matTooltip="Mit dem Planer verknüpft. Beim Abhaken zieht der Bestand nach."
+                    >verknüpft</span
+                  >
+                }
+                @if (build.ready) {
+                  <span class="chip chip--success">fertig</span>
+                }
+              </div>
+
+              <div
+                class="bar"
+                role="progressbar"
+                [attr.aria-valuenow]="build.livePercent"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-label]="'Fortschritt ' + build.name"
+              >
+                <div
+                  class="bar__fill"
+                  [style.width.%]="build.livePercent"
+                  [class.bar__fill--ready]="build.ready"
+                ></div>
+              </div>
+
+              <div class="build__meta">
+                <span class="muted">Fertig: {{ finishTime(build) }}</span>
+                @if (build.savedSeconds > 0) {
+                  <span class="saved">
+                    <mat-icon aria-hidden="true">bolt</mat-icon>
+                    {{ rough(build.savedSeconds) }} gespart
+                  </span>
+                }
+                @if (build.notes) {
+                  <span class="muted build__notes">{{ build.notes }}</span>
+                }
+              </div>
+
+              @if (build.boosts.length > 0) {
+                <ul class="boosts" role="list">
+                  @for (boost of build.boosts; track boost.id) {
+                    <li class="boost">
+                      <mat-icon aria-hidden="true">{{ boost.icon }}</mat-icon>
+                      <span>{{ boost.shortName }}</span>
+                      @if (boost.savedSeconds > 0) {
+                        <span class="boost__saved mono">&minus;{{ rough(boost.savedSeconds) }}</span>
+                      }
+                      <button
+                        type="button"
+                        class="boost__undo"
+                        [attr.aria-label]="boost.name + ' zurücknehmen'"
+                        [matTooltip]="boost.name + ' zurücknehmen'"
+                        (click)="undoBoost(build, boost.id, boost.name)"
+                      >
+                        <mat-icon aria-hidden="true">close</mat-icon>
+                      </button>
+                    </li>
+                  }
+                </ul>
+              }
+            </div>
+
+            <div class="build__side">
+              <span
+                class="build__countdown mono"
+                [class.build__countdown--ready]="build.ready"
+                [attr.aria-label]="build.ready ? build.name + ' ist fertig' : 'Restzeit ' + rough(build.secondsLeft)"
+              >
+                {{ build.ready ? 'Fertig!' : format(build.secondsLeft) }}
+              </span>
+
+              <div class="build__actions">
+                @if (boostsFor(build).length > 0 && !build.ready) {
+                  <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="boostMenu"
+                    matTooltip="Booster anwenden"
+                    aria-label="Booster anwenden"
+                  >
+                    <mat-icon>bolt</mat-icon>
+                  </button>
+                  <mat-menu #boostMenu="matMenu">
+                    @for (boost of boostsFor(build); track boost.id) {
+                      <button mat-menu-item (click)="quickApply(build, boost)">
+                        <mat-icon>{{ boost.icon }}</mat-icon>
+                        <span>{{ boost.name }}</span>
+                      </button>
+                    }
+                    <button mat-menu-item (click)="openBoostPanel(build)">
+                      <mat-icon>more_time</mat-icon>
+                      <span>Mit Zeitpunkt nachtragen …</span>
+                    </button>
+                  </mat-menu>
+                }
+                @if (build.ready && !build.acknowledged) {
+                  <button
+                    mat-icon-button
+                    matTooltip="Meldung zur Kenntnis genommen"
+                    aria-label="Fertig-Meldung ausblenden"
+                    (click)="acknowledge(build)"
+                  >
+                    <mat-icon>notifications_off</mat-icon>
+                  </button>
+                }
+                <button
+                  mat-icon-button
+                  matTooltip="Als erledigt abhaken"
+                  aria-label="Als erledigt abhaken"
+                  (click)="toggleCompleted(build)"
+                >
+                  <mat-icon>check_circle</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Bearbeiten" aria-label="Bearbeiten" (click)="edit(build)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Löschen" aria-label="Löschen" (click)="remove(build)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+
+            @if (boostPanelFor() === build.id) {
+              <form class="boostform" [formGroup]="boostForm" (ngSubmit)="submitBoost(build)">
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-label>Mittel</mat-label>
+                  <mat-select formControlName="boostId">
+                    @for (boost of boostsFor(build); track boost.id) {
+                      <mat-option [value]="boost.id">{{ boost.name }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                  <mat-label>Angewandt am</mat-label>
+                  <input matInput type="datetime-local" formControlName="appliedAt" />
+                </mat-form-field>
+
+                @if (selectedBoost(build)?.requiresAmount) {
+                  <div class="boostform__skip">
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                      <mat-label>Tage</mat-label>
+                      <input matInput type="number" formControlName="skipDays" min="0" max="60" />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                      <mat-label>Std</mat-label>
+                      <input matInput type="number" formControlName="skipHours" min="0" max="23" />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                      <mat-label>Min</mat-label>
+                      <input matInput type="number" formControlName="skipMinutes" min="0" max="59" />
+                    </mat-form-field>
+                  </div>
+                }
+
+                @if (selectedBoost(build); as boost) {
+                  <p class="boostform__hint muted">{{ boost.description }}</p>
+                }
+
+                <div class="boostform__actions">
+                  <button mat-flat-button color="primary" type="submit">Eintragen</button>
+                  <button mat-button type="button" (click)="closeBoostPanel()">Abbrechen</button>
+                </div>
+              </form>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  <!-- Archiv ------------------------------------------------------------ -->
+  @if (service.completed().length > 0) {
+    <section class="panel">
+      <div class="panel__head">
+        <button mat-button [attr.aria-expanded]="showCompleted()" (click)="showCompleted.set(!showCompleted())">
+          <mat-icon>{{ showCompleted() ? 'expand_less' : 'expand_more' }}</mat-icon>
+          Erledigt ({{ service.completed().length }})
+        </button>
+        <button mat-button color="warn" (click)="clearCompleted()">
+          <mat-icon>delete_sweep</mat-icon>
+          Archiv leeren
+        </button>
+      </div>
+
+      @if (showCompleted()) {
+        <ul class="archive">
+          @for (build of service.completed(); track build.id) {
+            <li>
+              <span>
+                {{ build.name }}@if (build.targetLevel) { · Lvl {{ build.targetLevel }} }
+              </span>
+              <span class="muted mono">{{ finishTime(build) }}</span>
+              <span class="archive__actions">
+                <button mat-icon-button matTooltip="Wieder öffnen" (click)="toggleCompleted(build)">
+                  <mat-icon>undo</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Löschen" (click)="remove(build)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</div>

@@ -1,0 +1,1109 @@
+{
+  "meta": {
+    "stand": "Rathaus 18, Stand der Quelle",
+    "quelle": "https://www.clash.ninja/guides/max-levels-for-each-th (Maximallevel). Die Stueckzahlen sind eigene Pflege und stehen nicht in der Quelle.",
+    "hinweis": "'anzahl' sagt, wie viele Exemplare bei welchem Rathaus-Level verfuegbar sind, 'maxLevel' das dort erreichbare Hoechstlevel. Beide Tabellen sind sparse: es gilt der Wert am groessten Schluessel kleiner oder gleich dem eigenen Rathaus-Level. Fehlt ein Eintrag, ist das Gebaeude dort noch nicht freigeschaltet.",
+    "pflege": "Reines JSON, nach einem Spiel-Update ohne Code-Aenderung korrigierbar."
+  },
+  "buildings": [
+    {
+      "id": "town-hall",
+      "name": "Rathaus",
+      "category": "kern",
+      "priority": 100,
+      "anzahl": {
+        "1": 1
+      },
+      "maxLevel": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "7": 7,
+        "8": 8,
+        "9": 9,
+        "10": 10,
+        "11": 11,
+        "12": 12,
+        "13": 13,
+        "14": 14,
+        "15": 15,
+        "16": 16,
+        "17": 17,
+        "18": 18
+      }
+    },
+    {
+      "id": "cannon",
+      "name": "Kanone",
+      "category": "verteidigung",
+      "priority": 62,
+      "anzahl": {
+        "1": 2,
+        "4": 4,
+        "5": 5,
+        "7": 6,
+        "9": 7,
+        "12": 8,
+        "16": 9
+      },
+      "maxLevel": {
+        "1": 1,
+        "2": 3,
+        "3": 4,
+        "4": 5,
+        "5": 6,
+        "6": 7,
+        "7": 8,
+        "8": 10,
+        "9": 11,
+        "10": 13,
+        "11": 15,
+        "12": 17,
+        "13": 19,
+        "14": 20,
+        "15": 21
+      }
+    },
+    {
+      "id": "archer-tower",
+      "name": "Bogenschützenturm",
+      "category": "verteidigung",
+      "priority": 64,
+      "anzahl": {
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 5,
+        "7": 6,
+        "8": 7,
+        "9": 8,
+        "13": 9,
+        "16": 10
+      },
+      "maxLevel": {
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 6,
+        "6": 7,
+        "7": 8,
+        "8": 10,
+        "9": 11,
+        "10": 13,
+        "11": 15,
+        "12": 17,
+        "13": 19,
+        "14": 20,
+        "15": 21
+      }
+    },
+    {
+      "id": "mortar",
+      "name": "Mörser",
+      "category": "verteidigung",
+      "priority": 70,
+      "anzahl": {
+        "3": 1,
+        "5": 2,
+        "7": 3,
+        "9": 4,
+        "14": 5
+      },
+      "maxLevel": {
+        "3": 1,
+        "4": 2,
+        "5": 3,
+        "6": 4,
+        "7": 5,
+        "8": 6,
+        "9": 7,
+        "10": 8,
+        "11": 10,
+        "12": 12,
+        "13": 13,
+        "14": 14,
+        "15": 15,
+        "16": 16,
+        "17": 17,
+        "18": 18
+      }
+    },
+    {
+      "id": "air-defense",
+      "name": "Luftabwehr",
+      "category": "verteidigung",
+      "priority": 88,
+      "anzahl": {
+        "4": 1,
+        "5": 2,
+        "7": 3,
+        "9": 4,
+        "16": 5
+      },
+      "maxLevel": {
+        "4": 2,
+        "5": 3,
+        "6": 4,
+        "7": 5,
+        "8": 6,
+        "9": 7,
+        "10": 8,
+        "11": 9,
+        "12": 10,
+        "13": 11,
+        "14": 12,
+        "15": 13,
+        "16": 14,
+        "17": 15,
+        "18": 16
+      }
+    },
+    {
+      "id": "wizard-tower",
+      "name": "Magierturm",
+      "category": "verteidigung",
+      "priority": 74,
+      "anzahl": {
+        "5": 1,
+        "6": 2,
+        "8": 3,
+        "9": 4,
+        "11": 5,
+        "17": 6
+      },
+      "maxLevel": {
+        "5": 2,
+        "6": 3,
+        "7": 4,
+        "8": 6,
+        "9": 7,
+        "10": 9,
+        "11": 10,
+        "12": 11,
+        "13": 13,
+        "14": 14,
+        "15": 15,
+        "16": 16,
+        "17": 17
+      }
+    },
+    {
+      "id": "air-sweeper",
+      "name": "Luftabwehrgebläse",
+      "category": "verteidigung",
+      "priority": 55,
+      "anzahl": {
+        "6": 1,
+        "8": 2
+      },
+      "maxLevel": {
+        "6": 2,
+        "7": 3,
+        "8": 4,
+        "9": 5,
+        "10": 6,
+        "11": 7
+      }
+    },
+    {
+      "id": "hidden-tesla",
+      "name": "Verborgener Tesla",
+      "category": "verteidigung",
+      "priority": 66,
+      "anzahl": {
+        "7": 2,
+        "8": 3,
+        "9": 4,
+        "11": 5
+      },
+      "maxLevel": {
+        "7": 3,
+        "8": 6,
+        "9": 7,
+        "10": 8,
+        "11": 9,
+        "12": 10,
+        "13": 12,
+        "14": 13,
+        "15": 14,
+        "16": 15,
+        "17": 16,
+        "18": 17
+      }
+    },
+    {
+      "id": "bomb-tower",
+      "name": "Bombenturm",
+      "category": "verteidigung",
+      "priority": 72,
+      "anzahl": {
+        "8": 1,
+        "9": 2,
+        "16": 3
+      },
+      "maxLevel": {
+        "8": 2,
+        "9": 3,
+        "10": 4,
+        "11": 6,
+        "12": 7,
+        "13": 8,
+        "14": 9,
+        "15": 10,
+        "16": 11,
+        "17": 12,
+        "18": 13
+      }
+    },
+    {
+      "id": "x-bow",
+      "name": "Armbrust",
+      "category": "verteidigung",
+      "priority": 86,
+      "anzahl": {
+        "9": 2,
+        "10": 3,
+        "11": 4
+      },
+      "maxLevel": {
+        "9": 3,
+        "10": 4,
+        "11": 5,
+        "12": 6,
+        "13": 8,
+        "14": 9,
+        "15": 10,
+        "16": 11,
+        "17": 12,
+        "18": 13
+      }
+    },
+    {
+      "id": "inferno-tower",
+      "name": "Infernoturm",
+      "category": "verteidigung",
+      "priority": 92,
+      "anzahl": {
+        "10": 2,
+        "12": 3
+      },
+      "maxLevel": {
+        "10": 3,
+        "11": 5,
+        "12": 6,
+        "13": 7,
+        "14": 8,
+        "15": 9,
+        "16": 10,
+        "17": 11,
+        "18": 12
+      }
+    },
+    {
+      "id": "eagle-artillery",
+      "name": "Adlerartillerie",
+      "category": "verteidigung",
+      "priority": 94,
+      "anzahl": {
+        "11": 1,
+        "17": 0
+      },
+      "maxLevel": {
+        "11": 2,
+        "12": 3,
+        "13": 4,
+        "14": 5,
+        "15": 6,
+        "16": 7
+      }
+    },
+    {
+      "id": "scattershot",
+      "name": "Streuschuss",
+      "category": "verteidigung",
+      "priority": 90,
+      "anzahl": {
+        "13": 2
+      },
+      "maxLevel": {
+        "13": 2,
+        "14": 3,
+        "15": 4,
+        "16": 5,
+        "17": 6,
+        "18": 7
+      }
+    },
+    {
+      "id": "builder-hut",
+      "name": "Bauarbeiterhütte",
+      "category": "verteidigung",
+      "priority": 56,
+      "anzahl": {
+        "1": 2,
+        "2": 3,
+        "3": 4,
+        "8": 5,
+        "15": 6
+      },
+      "maxLevel": {
+        "14": 4,
+        "15": 5,
+        "16": 6,
+        "17": 7,
+        "18": 8
+      }
+    },
+    {
+      "id": "monolith",
+      "name": "Monolith",
+      "category": "verteidigung",
+      "priority": 93,
+      "anzahl": {
+        "15": 1
+      },
+      "maxLevel": {
+        "15": 2,
+        "16": 3,
+        "17": 4,
+        "18": 5
+      }
+    },
+    {
+      "id": "spell-tower",
+      "name": "Zauberturm",
+      "category": "verteidigung",
+      "priority": 80,
+      "anzahl": {
+        "15": 2,
+        "17": 3
+      },
+      "maxLevel": {
+        "15": 3,
+        "17": 4
+      }
+    },
+    {
+      "id": "multi-archer-tower",
+      "name": "Mehrfach-Bogenschützenturm",
+      "category": "verteidigung",
+      "priority": 78,
+      "anzahl": {
+        "16": 1
+      },
+      "maxLevel": {
+        "16": 2,
+        "17": 3,
+        "18": 4
+      }
+    },
+    {
+      "id": "ricochet-cannon",
+      "name": "Abprallkanone",
+      "category": "verteidigung",
+      "priority": 78,
+      "anzahl": {
+        "16": 1
+      },
+      "maxLevel": {
+        "16": 2,
+        "17": 3,
+        "18": 4
+      }
+    },
+    {
+      "id": "firespitter",
+      "name": "Feuerspucker",
+      "category": "verteidigung",
+      "priority": 76,
+      "anzahl": {
+        "17": 1
+      },
+      "maxLevel": {
+        "17": 2,
+        "18": 3
+      }
+    },
+    {
+      "id": "multi-gear-tower",
+      "name": "Mehrfach-Getriebeturm",
+      "category": "verteidigung",
+      "priority": 76,
+      "anzahl": {
+        "17": 1
+      },
+      "maxLevel": {
+        "17": 2,
+        "18": 3
+      }
+    },
+    {
+      "id": "inferno-artillery",
+      "name": "Infernoartillerie",
+      "category": "verteidigung",
+      "priority": 94,
+      "anzahl": {
+        "17": 1,
+        "18": 0
+      },
+      "maxLevel": {
+        "17": 5
+      }
+    },
+    {
+      "id": "revenge-tower",
+      "name": "Rachturm",
+      "category": "verteidigung",
+      "priority": 80,
+      "anzahl": {
+        "18": 1
+      },
+      "maxLevel": {
+        "18": 2
+      }
+    },
+    {
+      "id": "super-wizard-tower",
+      "name": "Supermagierturm",
+      "category": "verteidigung",
+      "priority": 80,
+      "anzahl": {
+        "18": 1
+      },
+      "maxLevel": {
+        "18": 2
+      }
+    },
+    {
+      "id": "bomb",
+      "name": "Bombe",
+      "category": "falle",
+      "priority": 44,
+      "anzahl": {
+        "3": 2,
+        "5": 4,
+        "7": 5,
+        "9": 6,
+        "11": 8
+      },
+      "maxLevel": {
+        "3": 2,
+        "5": 3,
+        "7": 4,
+        "8": 5,
+        "9": 6,
+        "10": 7,
+        "11": 8,
+        "13": 9,
+        "14": 10,
+        "15": 11,
+        "16": 12,
+        "17": 13,
+        "18": 14
+      }
+    },
+    {
+      "id": "spring-trap",
+      "name": "Sprungfalle",
+      "category": "falle",
+      "priority": 42,
+      "anzahl": {
+        "4": 2,
+        "6": 4,
+        "8": 5,
+        "10": 6
+      },
+      "maxLevel": {
+        "4": 1,
+        "7": 2,
+        "8": 3,
+        "9": 4,
+        "10": 5,
+        "11": 6,
+        "12": 7,
+        "13": 8,
+        "14": 9,
+        "15": 10,
+        "16": 11,
+        "17": 12,
+        "18": 13
+      }
+    },
+    {
+      "id": "air-bomb",
+      "name": "Luftbombe",
+      "category": "falle",
+      "priority": 44,
+      "anzahl": {
+        "5": 1,
+        "7": 2,
+        "9": 3,
+        "11": 4,
+        "13": 5
+      },
+      "maxLevel": {
+        "5": 2,
+        "7": 3,
+        "9": 4,
+        "11": 5,
+        "12": 6,
+        "13": 8,
+        "14": 9,
+        "15": 10,
+        "16": 11,
+        "17": 12,
+        "18": 13
+      }
+    },
+    {
+      "id": "giant-bomb",
+      "name": "Riesenbombe",
+      "category": "falle",
+      "priority": 52,
+      "anzahl": {
+        "6": 1,
+        "8": 2,
+        "10": 3,
+        "12": 4,
+        "14": 5
+      },
+      "maxLevel": {
+        "6": 2,
+        "8": 3,
+        "10": 4,
+        "11": 5,
+        "13": 7,
+        "14": 8,
+        "15": 9,
+        "16": 10,
+        "17": 11,
+        "18": 12
+      }
+    },
+    {
+      "id": "seeking-air-mine",
+      "name": "Suchende Luftmine",
+      "category": "falle",
+      "priority": 54,
+      "anzahl": {
+        "8": 1,
+        "10": 2,
+        "12": 3,
+        "14": 4
+      },
+      "maxLevel": {
+        "7": 1,
+        "9": 2,
+        "10": 3,
+        "13": 4,
+        "15": 5,
+        "16": 6,
+        "17": 7,
+        "18": 8
+      }
+    },
+    {
+      "id": "skeleton-trap",
+      "name": "Skelettfalle",
+      "category": "falle",
+      "priority": 42,
+      "anzahl": {
+        "9": 2,
+        "11": 3,
+        "13": 4
+      },
+      "maxLevel": {
+        "8": 2,
+        "9": 3,
+        "10": 4,
+        "18": 5
+      }
+    },
+    {
+      "id": "tornado-trap",
+      "name": "Tornadofalle",
+      "category": "falle",
+      "priority": 50,
+      "anzahl": {
+        "11": 1,
+        "14": 2
+      },
+      "maxLevel": {
+        "11": 2,
+        "12": 3
+      }
+    },
+    {
+      "id": "giga-bomb",
+      "name": "Gigabombe",
+      "category": "falle",
+      "priority": 56,
+      "anzahl": {
+        "17": 2
+      },
+      "maxLevel": {
+        "17": 3,
+        "18": 4
+      }
+    },
+    {
+      "id": "army-camp",
+      "name": "Truppenlager",
+      "category": "armee",
+      "priority": 82,
+      "anzahl": {
+        "1": 1,
+        "2": 2,
+        "4": 3,
+        "7": 4
+      },
+      "maxLevel": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "9": 7,
+        "10": 8,
+        "11": 9,
+        "12": 10,
+        "13": 11,
+        "15": 12,
+        "17": 13,
+        "18": 14
+      }
+    },
+    {
+      "id": "barracks",
+      "name": "Kaserne",
+      "category": "armee",
+      "priority": 50,
+      "anzahl": {
+        "1": 1,
+        "2": 2,
+        "4": 3,
+        "7": 4
+      },
+      "maxLevel": {
+        "1": 1,
+        "2": 4,
+        "3": 5,
+        "4": 6,
+        "5": 7,
+        "6": 8,
+        "7": 9,
+        "8": 10,
+        "9": 11,
+        "10": 12,
+        "11": 13,
+        "12": 14,
+        "13": 15,
+        "14": 16,
+        "15": 17,
+        "16": 18,
+        "17": 19
+      }
+    },
+    {
+      "id": "clan-castle",
+      "name": "Clanburg",
+      "category": "armee",
+      "priority": 84,
+      "anzahl": {
+        "3": 1
+      },
+      "maxLevel": {
+        "2": 1,
+        "4": 2,
+        "6": 3,
+        "8": 4,
+        "9": 5,
+        "10": 6,
+        "11": 7,
+        "12": 8,
+        "13": 9,
+        "14": 10,
+        "15": 11,
+        "16": 12,
+        "17": 13,
+        "18": 14
+      }
+    },
+    {
+      "id": "laboratory",
+      "name": "Labor",
+      "category": "armee",
+      "priority": 96,
+      "anzahl": {
+        "3": 1
+      },
+      "maxLevel": {
+        "3": 1,
+        "4": 2,
+        "5": 3,
+        "6": 4,
+        "7": 5,
+        "8": 6,
+        "9": 7,
+        "10": 8,
+        "11": 9,
+        "12": 10,
+        "13": 11,
+        "14": 12,
+        "15": 13,
+        "16": 14,
+        "17": 15,
+        "18": 16
+      }
+    },
+    {
+      "id": "hero-hall",
+      "name": "Heldenhalle",
+      "category": "armee",
+      "priority": 95,
+      "anzahl": {
+        "4": 1
+      },
+      "maxLevel": {
+        "4": 1,
+        "8": 2,
+        "9": 3,
+        "10": 4,
+        "11": 5,
+        "12": 6,
+        "13": 7,
+        "14": 8,
+        "15": 9,
+        "16": 10,
+        "17": 11,
+        "18": 12
+      }
+    },
+    {
+      "id": "spell-factory",
+      "name": "Zauberfabrik",
+      "category": "armee",
+      "priority": 80,
+      "anzahl": {
+        "5": 1
+      },
+      "maxLevel": {
+        "5": 1,
+        "6": 2,
+        "7": 3,
+        "9": 4,
+        "10": 5,
+        "11": 6,
+        "13": 7,
+        "15": 8,
+        "16": 9
+      }
+    },
+    {
+      "id": "dark-barracks",
+      "name": "Dunkle Kaserne",
+      "category": "armee",
+      "priority": 50,
+      "anzahl": {
+        "7": 1,
+        "8": 2,
+        "10": 3
+      },
+      "maxLevel": {
+        "7": 2,
+        "8": 4,
+        "9": 6,
+        "10": 7,
+        "11": 8,
+        "12": 9,
+        "13": 10,
+        "14": 11,
+        "15": 12,
+        "16": 13
+      }
+    },
+    {
+      "id": "dark-spell-factory",
+      "name": "Dunkle Zauberfabrik",
+      "category": "armee",
+      "priority": 78,
+      "anzahl": {
+        "8": 1
+      },
+      "maxLevel": {
+        "8": 2,
+        "9": 4,
+        "10": 5,
+        "12": 6,
+        "14": 7,
+        "15": 8
+      }
+    },
+    {
+      "id": "blacksmith",
+      "name": "Schmiede",
+      "category": "armee",
+      "priority": 88,
+      "anzahl": {
+        "8": 1
+      },
+      "maxLevel": {
+        "8": 1,
+        "9": 2,
+        "10": 3,
+        "11": 4,
+        "12": 5,
+        "13": 6,
+        "14": 7,
+        "15": 8,
+        "16": 9,
+        "17": 10
+      }
+    },
+    {
+      "id": "workshop",
+      "name": "Werkstatt",
+      "category": "armee",
+      "priority": 76,
+      "anzahl": {
+        "12": 1
+      },
+      "maxLevel": {
+        "12": 3,
+        "13": 5,
+        "14": 6,
+        "15": 7,
+        "16": 8,
+        "17": 9
+      }
+    },
+    {
+      "id": "pet-house",
+      "name": "Haustierhaus",
+      "category": "armee",
+      "priority": 86,
+      "anzahl": {
+        "14": 1
+      },
+      "maxLevel": {
+        "14": 4,
+        "15": 8,
+        "16": 10,
+        "17": 11,
+        "18": 12
+      }
+    },
+    {
+      "id": "gold-mine",
+      "name": "Goldmine",
+      "category": "ressourcen",
+      "priority": 30,
+      "anzahl": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "8": 7
+      },
+      "maxLevel": {
+        "1": 1,
+        "2": 4,
+        "3": 6,
+        "4": 8,
+        "5": 10,
+        "7": 11,
+        "8": 12,
+        "10": 13,
+        "11": 14,
+        "12": 15,
+        "14": 16,
+        "16": 17
+      }
+    },
+    {
+      "id": "elixir-collector",
+      "name": "Elixiersammler",
+      "category": "ressourcen",
+      "priority": 30,
+      "anzahl": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "8": 7
+      },
+      "maxLevel": {
+        "1": 1,
+        "2": 4,
+        "3": 6,
+        "4": 8,
+        "5": 10,
+        "7": 11,
+        "8": 12,
+        "10": 13,
+        "11": 14,
+        "12": 15,
+        "14": 16,
+        "16": 17
+      }
+    },
+    {
+      "id": "gold-storage",
+      "name": "Goldlager",
+      "category": "ressourcen",
+      "priority": 58,
+      "anzahl": {
+        "1": 1,
+        "3": 2,
+        "6": 3,
+        "8": 4
+      },
+      "maxLevel": {
+        "1": 1,
+        "2": 3,
+        "3": 6,
+        "4": 8,
+        "5": 9,
+        "6": 10,
+        "7": 11,
+        "11": 12,
+        "12": 13,
+        "13": 14,
+        "14": 15,
+        "15": 16,
+        "16": 17,
+        "17": 18,
+        "18": 19
+      }
+    },
+    {
+      "id": "elixir-storage",
+      "name": "Elixierlager",
+      "category": "ressourcen",
+      "priority": 58,
+      "anzahl": {
+        "1": 1,
+        "3": 2,
+        "6": 3,
+        "8": 4
+      },
+      "maxLevel": {
+        "1": 1,
+        "2": 3,
+        "3": 6,
+        "4": 8,
+        "5": 9,
+        "6": 10,
+        "7": 11,
+        "11": 12,
+        "12": 13,
+        "13": 14,
+        "14": 15,
+        "15": 16,
+        "16": 17,
+        "17": 18,
+        "18": 19
+      }
+    },
+    {
+      "id": "dark-elixir-drill",
+      "name": "Bohrturm für dunkles Elixier",
+      "category": "ressourcen",
+      "priority": 46,
+      "anzahl": {
+        "7": 1,
+        "8": 2,
+        "9": 3
+      },
+      "maxLevel": {
+        "7": 3,
+        "9": 6,
+        "10": 7,
+        "11": 8,
+        "12": 9,
+        "14": 10,
+        "16": 11
+      }
+    },
+    {
+      "id": "dark-elixir-storage",
+      "name": "Lager für dunkles Elixier",
+      "category": "ressourcen",
+      "priority": 60,
+      "anzahl": {
+        "7": 1
+      },
+      "maxLevel": {
+        "7": 2,
+        "8": 4,
+        "9": 6,
+        "12": 7,
+        "13": 8,
+        "14": 9,
+        "15": 10,
+        "16": 11,
+        "17": 12,
+        "18": 13
+      }
+    },
+    {
+      "id": "helper-hut",
+      "name": "Helferhütte",
+      "category": "ressourcen",
+      "priority": 20,
+      "anzahl": {
+        "9": 1
+      },
+      "maxLevel": {
+        "9": 1
+      }
+    },
+    {
+      "id": "wall",
+      "name": "Mauerstück",
+      "category": "mauer",
+      "priority": 40,
+      "anzahl": {
+        "2": 25,
+        "3": 50,
+        "4": 75,
+        "5": 100,
+        "6": 125,
+        "7": 175,
+        "8": 225,
+        "9": 250,
+        "10": 275,
+        "11": 300,
+        "12": 325
+      },
+      "maxLevel": {
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        "7": 7,
+        "8": 8,
+        "9": 10,
+        "10": 11,
+        "11": 12,
+        "12": 13,
+        "13": 14,
+        "14": 15,
+        "15": 16,
+        "16": 17,
+        "17": 18,
+        "18": 19
+      }
+    }
+  ]
+}

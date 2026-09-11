@@ -1,0 +1,93 @@
+<a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">
+      <div class="brand__mark">
+        @if (store.player().data; as player) {
+          <span class="brand__th mono">{{ player.townHallLevel }}</span>
+        } @else {
+          <mat-icon>castle</mat-icon>
+        }
+      </div>
+      <div class="brand__text">
+        <span class="brand__title">Clash of Clans Dashboard</span>
+        @if (store.player().data; as player) {
+          <span class="brand__sub mono">{{ player.name }} · {{ player.tag }}</span>
+        } @else {
+          <span class="brand__sub muted">Lokale Instanz</span>
+        }
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="refresh-info mono" [class.refresh-info--stale]="secondsSinceRefresh() > 900">
+        <span>{{ formatAgo(secondsSinceRefresh()) }}</span>
+        @if (secondsUntilRefresh() !== null) {
+          <span class="refresh-info__next">· nächster in {{ formatCountdown(secondsUntilRefresh()!) }}</span>
+        }
+      </div>
+
+      <mat-slide-toggle
+        [checked]="store.autoRefreshEnabled()"
+        (change)="store.autoRefreshEnabled.set($event.checked)"
+        matTooltip="Live-Daten automatisch neu laden"
+      >
+        Auto
+      </mat-slide-toggle>
+
+      <label class="interval">
+        <span class="interval__label">Intervall</span>
+        <select
+          class="interval__select mono"
+          [value]="store.refreshIntervalSeconds()"
+          [disabled]="!store.autoRefreshEnabled()"
+          (change)="onIntervalChange($any($event.target).value)"
+        >
+          @for (option of intervalOptions; track option) {
+            <option [value]="option">{{ formatInterval(option) }}</option>
+          }
+        </select>
+      </label>
+
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="store.forceRefresh()"
+        [disabled]="store.anyLoading()"
+        matTooltip="Cache leeren und sofort neu laden"
+      >
+        <mat-icon aria-hidden="true">refresh</mat-icon>
+        <span class="controls__label">Aktualisieren</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="tabs" aria-label="Hauptnavigation">
+    @for (item of nav; track item.path) {
+      <a
+        class="tabs__link"
+        [attr.aria-label]="item.label"
+        [routerLink]="item.path"
+        routerLinkActive="tabs__link--active"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
+        <mat-icon aria-hidden="true">{{ item.icon }}</mat-icon>
+        <span class="tabs__text">{{ item.label }}</span>
+        @if (item.path === '/bau' && readyCount() > 0) {
+          <span class="tabs__badge mono">{{ readyCount() }}</span>
+        }
+      </a>
+    }
+  </nav>
+
+  <mat-progress-bar
+    class="topbar__loader"
+    mode="indeterminate"
+    [class.topbar__loader--hidden]="!store.anyLoading()"
+  />
+</header>
+
+<main id="inhalt" tabindex="-1">
+  <router-outlet />
+</main>

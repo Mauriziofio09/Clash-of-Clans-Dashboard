@@ -1,0 +1,604 @@
+{
+  "meta": {
+    "hinweis": "Wissensdatenbank des Strategie-Beraters. Jede Regel wird gegen Rathaus-Level und vorhandene Truppen-/Zauber-/Helden-Level geprüft. Neue Strategien lassen sich hier ohne Code-Änderung ergänzen - die Namen der Einheiten müssen exakt den englischen Bezeichnungen der Clash-of-Clans-API entsprechen.",
+    "felder": {
+      "minLevel": "Mindestlevel, damit die Anforderung als erfüllt gilt",
+      "count": "Empfohlene Anzahl in der Armee, rein informativ",
+      "optional": "true = fehlende Einheit senkt die Punktzahl nur leicht"
+    }
+  },
+  "strategies": [
+    {
+      "id": "gibarch",
+      "name": "GiBarch (Riesen, Barbaren, Bogenschützen)",
+      "shortName": "GiBarch",
+      "minTownHall": 5,
+      "maxTownHall": 8,
+      "difficulty": "einsteiger",
+      "summary": "Günstige Farm-Armee für Ressourcen. Riesen ziehen das Feuer, Barbaren und Bogenschützen räumen die Außenring-Sammler ab.",
+      "troops": [
+        { "name": "Giant", "minLevel": 3, "count": 10 },
+        { "name": "Barbarian", "minLevel": 3, "count": 40 },
+        { "name": "Archer", "minLevel": 3, "count": 40 },
+        { "name": "Wall Breaker", "minLevel": 2, "count": 4, "optional": true }
+      ],
+      "spells": [{ "name": "Lightning Spell", "minLevel": 3, "count": 2, "optional": true }],
+      "sieges": [],
+      "heroes": [],
+      "steps": [
+        "Ziel mit vollen Sammlern außerhalb der Mauern suchen.",
+        "Riesen auf die Seite mit den meisten Sammlern setzen, damit sie Verteidigungsanlagen binden.",
+        "Barbaren und Bogenschützen in breiter Linie dahinter verteilen, nicht auf einen Punkt.",
+        "Mauerbrecher erst einsetzen, wenn die Mörser-Schüsse bereits auf den Riesen liegen.",
+        "König am Rand nachziehen, um Randgebäude aufzuräumen."
+      ],
+      "tips": [
+        "Nie in Reichweite eines Mörsers stapeln - Truppen einzeln antippen und verteilen.",
+        "Blitzzauber lohnen sich nur, wenn eine Dunkles-Elixier-Bohrinsel gut gefüllt ist.",
+        "Die Armee ist zum Farmen gedacht, nicht für Kriegsangriffe auf 3 Sterne."
+      ],
+      "tags": ["farmen", "günstig", "bodenangriff"]
+    },
+    {
+      "id": "mass-dragons",
+      "name": "Massen-Drachen mit Blitz auf Luftabwehr",
+      "shortName": "Mass Dragons",
+      "minTownHall": 7,
+      "maxTownHall": 10,
+      "difficulty": "einsteiger",
+      "summary": "Die klassische erste Kriegsarmee: eine Luftabwehr wegblitzen, dann mit einem Drachen-Block über die schwächste Seite walzen.",
+      "troops": [
+        { "name": "Dragon", "minLevel": 2, "count": 10 },
+        { "name": "Balloon", "minLevel": 4, "count": 4, "optional": true },
+        { "name": "Minion", "minLevel": 3, "count": 4, "optional": true }
+      ],
+      "spells": [
+        { "name": "Lightning Spell", "minLevel": 4, "count": 4 },
+        { "name": "Rage Spell", "minLevel": 3, "count": 1, "optional": true }
+      ],
+      "sieges": [],
+      "heroes": [{ "name": "Barbarian King", "minLevel": 5, "optional": true }],
+      "steps": [
+        "Vor dem Angriff prüfen: Welche Luftabwehr liegt so, dass ihr Wegfall eine ganze Seite öffnet?",
+        "Diese Luftabwehr mit 3-4 Blitzzaubern zerstören.",
+        "Clanburg-Truppen mit 1-2 Drachen an einer Ecke herausziehen und separat töten.",
+        "Alle Drachen in einer Linie über die geöffnete Seite setzen, leicht versetzt.",
+        "Wutzauber legen, sobald der Block in die Basismitte einbiegt."
+      ],
+      "tips": [
+        "Drachen niemals auf einen einzigen Punkt setzen - Luftminen und Suchende Luftmine räumen sonst mehrere gleichzeitig ab.",
+        "Vorher die Suchende Luftmine einplanen: eine einzelne kann einen Drachen sofort töten.",
+        "Ab Rathaus 9 mit Ballons als Zusatzschaden auf Verteidigungsanlagen ergänzen."
+      ],
+      "tags": ["krieg", "luftangriff", "einsteigerfreundlich"]
+    },
+    {
+      "id": "gowipe",
+      "name": "GoWiPe (Golem, Magier, P.E.K.K.A)",
+      "shortName": "GoWiPe",
+      "minTownHall": 8,
+      "maxTownHall": 10,
+      "difficulty": "fortgeschritten",
+      "summary": "Bodenangriff mit Golems als Schild. Magier räumen die Außenhülle, P.E.K.K.As brechen durch den Kern.",
+      "troops": [
+        { "name": "Golem", "minLevel": 2, "count": 2 },
+        { "name": "Wizard", "minLevel": 5, "count": 12 },
+        { "name": "P.E.K.K.A", "minLevel": 2, "count": 3 },
+        { "name": "Wall Breaker", "minLevel": 4, "count": 4 }
+      ],
+      "spells": [
+        { "name": "Rage Spell", "minLevel": 4, "count": 2 },
+        { "name": "Healing Spell", "minLevel": 4, "count": 1, "optional": true },
+        { "name": "Jump Spell", "minLevel": 1, "count": 1, "optional": true }
+      ],
+      "sieges": [],
+      "heroes": [
+        { "name": "Barbarian King", "minLevel": 10 },
+        { "name": "Archer Queen", "minLevel": 10, "optional": true }
+      ],
+      "steps": [
+        "Zwei Golems im Abstand von ca. 5 Feldern auf die gewählte Seite setzen.",
+        "Magier hinter den Golems in einer Linie verteilen, sie räumen den Außenring.",
+        "Mauerbrecher einsetzen, sobald die erste Mauerlinie erreicht ist.",
+        "P.E.K.K.As und Helden hinterher in die entstandene Lücke schicken.",
+        "Wutzauber auf den Trupp legen, wenn er im Kern steht, Heilzauber gegen Teslas nachwerfen."
+      ],
+      "tips": [
+        "Clanburg-Truppen vorher herausziehen und mit Magiern plus Giftzauber töten - P.E.K.K.As verlieren sonst viel Zeit.",
+        "Die Angriffsseite so wählen, dass Rathaus und mehrere Verteidigungsanlagen auf einer Linie liegen.",
+        "Realistisches Ziel sind 2 Sterne; 3 Sterne nur bei schwächeren Gegnern."
+      ],
+      "tags": ["krieg", "bodenangriff", "zwei-sterne"]
+    },
+    {
+      "id": "gowiwi",
+      "name": "GoWiWi (Golem, Magier, Hexen)",
+      "shortName": "GoWiWi",
+      "minTownHall": 9,
+      "maxTownHall": 10,
+      "difficulty": "fortgeschritten",
+      "summary": "Langsamer, sehr robuster Bodenangriff. Die Skelette der Hexen fangen permanent Schaden ab, der Trupp frisst sich durch den Kern.",
+      "troops": [
+        { "name": "Golem", "minLevel": 4, "count": 3 },
+        { "name": "Wizard", "minLevel": 6, "count": 10 },
+        { "name": "Witch", "minLevel": 2, "count": 4 },
+        { "name": "Wall Breaker", "minLevel": 5, "count": 4 }
+      ],
+      "spells": [
+        { "name": "Healing Spell", "minLevel": 5, "count": 2 },
+        { "name": "Rage Spell", "minLevel": 5, "count": 2 },
+        { "name": "Poison Spell", "minLevel": 2, "count": 1 }
+      ],
+      "sieges": [],
+      "heroes": [
+        { "name": "Barbarian King", "minLevel": 20 },
+        { "name": "Archer Queen", "minLevel": 20 }
+      ],
+      "steps": [
+        "Golems breit auf einer Seite setzen, damit möglichst viele Verteidigungsanlagen sie anvisieren.",
+        "Magier dahinter, Außenring abräumen lassen.",
+        "Mauerbrecher an der geplanten Einbruchstelle.",
+        "Hexen zuletzt und mittig setzen - sie müssen geschützt bleiben.",
+        "Heilzauber immer dann werfen, wenn der Trupp an einer Verteidigungsanlage stockt."
+      ],
+      "tips": [
+        "Der Angriff ist langsam: unbedingt früh starten und auf die Uhr achten.",
+        "Giftzauber gegen die gegnerische Clanburg aufheben.",
+        "Skelette sterben gegen Bombentürme sofort - diese möglichst zuerst wegräumen lassen."
+      ],
+      "tags": ["krieg", "bodenangriff", "robust"]
+    },
+    {
+      "id": "laloon",
+      "name": "LaLoon (Lava Hunde + Ballons)",
+      "shortName": "LaLoon",
+      "minTownHall": 9,
+      "maxTownHall": 13,
+      "difficulty": "experte",
+      "summary": "Der Luft-Klassiker für 3 Sterne. Lava Hunde binden die Luftabwehr, Ballons zerstören dahinter alle Verteidigungsanlagen.",
+      "troops": [
+        { "name": "Lava Hound", "minLevel": 2, "count": 3 },
+        { "name": "Balloon", "minLevel": 6, "count": 20 },
+        { "name": "Minion", "minLevel": 5, "count": 8, "optional": true }
+      ],
+      "spells": [
+        { "name": "Haste Spell", "minLevel": 2, "count": 3 },
+        { "name": "Rage Spell", "minLevel": 5, "count": 2 },
+        { "name": "Freeze Spell", "minLevel": 2, "count": 2 },
+        { "name": "Poison Spell", "minLevel": 3, "count": 1, "optional": true }
+      ],
+      "sieges": [],
+      "heroes": [{ "name": "Archer Queen", "minLevel": 30, "optional": true }],
+      "steps": [
+        "Luftminen und Suchende Luftminen aus vorherigen Angriffen einplanen oder mit Minions auslösen.",
+        "Lava Hunde so setzen, dass sie alle Luftabwehren auf sich ziehen.",
+        "Ballons direkt hinter den Hunden in Zweiergruppen 'pfeilspitzenförmig' nachsetzen.",
+        "Hetzzauber auf den Ballon-Pulk legen, damit er die Hunde nicht verliert.",
+        "Einfrieren gegen Infernotürme und Luftabwehr im Kern, Wut im Kern für den Abschluss."
+      ],
+      "tips": [
+        "Ballons folgen immer der nächsten Verteidigungsanlage - die Route vorher gedanklich durchspielen.",
+        "Einzelziel-Infernoturm friert man ein, Mehrfachziel-Inferno besser mit Hunden abfangen.",
+        "Minions erst ganz am Ende, sonst sterben sie an Luftminen."
+      ],
+      "tags": ["krieg", "luftangriff", "drei-sterne"]
+    },
+    {
+      "id": "bowitch",
+      "name": "Bowitch / GoBoWitch (Bowler + Hexen)",
+      "shortName": "Bowitch",
+      "minTownHall": 10,
+      "maxTownHall": 12,
+      "difficulty": "fortgeschritten",
+      "summary": "Bowler werfen ihre Kugeln über die Mauer und räumen zwei Gebäudereihen gleichzeitig, Hexen halten den Trupp am Leben.",
+      "troops": [
+        { "name": "Bowler", "minLevel": 2, "count": 12 },
+        { "name": "Witch", "minLevel": 3, "count": 4 },
+        { "name": "Golem", "minLevel": 5, "count": 2, "optional": true },
+        { "name": "Ice Golem", "minLevel": 2, "count": 2, "optional": true }
+      ],
+      "spells": [
+        { "name": "Healing Spell", "minLevel": 6, "count": 3 },
+        { "name": "Rage Spell", "minLevel": 5, "count": 2 },
+        { "name": "Jump Spell", "minLevel": 3, "count": 1, "optional": true },
+        { "name": "Poison Spell", "minLevel": 4, "count": 1 }
+      ],
+      "sieges": [{ "name": "Wall Wrecker", "minLevel": 1, "optional": true }],
+      "heroes": [
+        { "name": "Barbarian King", "minLevel": 30 },
+        { "name": "Archer Queen", "minLevel": 30 }
+      ],
+      "steps": [
+        "Belagerungsmaschine auf die Seite mit der höchsten Gebäudedichte schicken.",
+        "Eisgolems vorweg, damit sie Schaden abfangen und Verteidiger einfrieren.",
+        "Bowler kompakt dahinter setzen - sie müssen als Block bleiben.",
+        "Hexen zuletzt, Skelette füllen die Lücken.",
+        "Heilzauber unter dem Pulk halten, Wut für den Durchmarsch durch den Kern."
+      ],
+      "tips": [
+        "Der Trupp läuft nur in eine Richtung - die Basis muss auf dieser Linie genug Wert bieten.",
+        "Bombentürme und Feuerfallen killen die Skelette, Heilzauber rechtzeitig werfen.",
+        "Königin separat als Schleicher-Queen einsetzen, wenn sie hoch genug ist."
+      ],
+      "tags": ["krieg", "bodenangriff", "drei-sterne"]
+    },
+    {
+      "id": "zap-dragons",
+      "name": "Zap-Drachen (Electro Dragon + Blitz/Erdbeben)",
+      "shortName": "Zap Drags",
+      "minTownHall": 11,
+      "maxTownHall": 14,
+      "difficulty": "einsteiger",
+      "summary": "Zwei Luftabwehren mit Blitz- und Erdbebenzaubern entfernen, dann Elektrodrachen als Kettenblitz-Walze schicken. Sehr zuverlässig, wenig Mikro nötig.",
+      "troops": [
+        { "name": "Electro Dragon", "minLevel": 2, "count": 8 },
+        { "name": "Balloon", "minLevel": 7, "count": 4, "optional": true },
+        { "name": "Dragon", "minLevel": 5, "count": 2, "optional": true }
+      ],
+      "spells": [
+        { "name": "Lightning Spell", "minLevel": 8, "count": 6 },
+        { "name": "Earthquake Spell", "minLevel": 4, "count": 1 },
+        { "name": "Rage Spell", "minLevel": 6, "count": 2, "optional": true },
+        { "name": "Freeze Spell", "minLevel": 5, "count": 1, "optional": true }
+      ],
+      "sieges": [{ "name": "Battle Blimp", "minLevel": 1, "optional": true }],
+      "heroes": [{ "name": "Grand Warden", "minLevel": 20 }],
+      "steps": [
+        "Zwei benachbarte Luftabwehren aussuchen, die zusammen eine Seite öffnen.",
+        "Je Luftabwehr 3 Blitze plus 1 Erdbeben einsetzen (Erdbeben zuerst).",
+        "Elektrodrachen in einer breiten Linie über die geöffnete Seite setzen.",
+        "Großen Wächter im Luftmodus mittig hinter der Linie nachsetzen.",
+        "Wut legen, wenn die Drachen die Kernverteidigung erreichen; Fähigkeit des Wächters vor dem Inferno auslösen."
+      ],
+      "tips": [
+        "Die Kettenblitze treffen nur benachbarte Gebäude - dichte Basen sind ideale Ziele.",
+        "Elektrodrachen sind langsam: spätestens bei 2:30 Restzeit muss der Kern erreicht sein.",
+        "Die unsichtbare Fähigkeit des Wächters ist die Lebensversicherung gegen den Einzelziel-Infernoturm."
+      ],
+      "tags": ["krieg", "luftangriff", "einsteigerfreundlich", "drei-sterne"]
+    },
+    {
+      "id": "qc-hybrid",
+      "name": "Queen Charge Hybrid (Miner + Hog Rider)",
+      "shortName": "QC Hybrid",
+      "minTownHall": 11,
+      "maxTownHall": 14,
+      "difficulty": "experte",
+      "summary": "Die Königin räumt mit Heilern ein Viertel der Basis, danach überrollen Bergarbeiter und Schweinereiter den Rest. Die Standard-Kriegsstrategie auf hohen Rathäusern.",
+      "troops": [
+        { "name": "Archer Queen", "minLevel": 50 },
+        { "name": "Healer", "minLevel": 5, "count": 4 },
+        { "name": "Miner", "minLevel": 4, "count": 14 },
+        { "name": "Hog Rider", "minLevel": 7, "count": 14 }
+      ],
+      "spells": [
+        { "name": "Healing Spell", "minLevel": 7, "count": 4 },
+        { "name": "Rage Spell", "minLevel": 6, "count": 2 },
+        { "name": "Freeze Spell", "minLevel": 5, "count": 2 },
+        { "name": "Poison Spell", "minLevel": 5, "count": 1 }
+      ],
+      "sieges": [{ "name": "Siege Barracks", "minLevel": 1, "optional": true }],
+      "heroes": [
+        { "name": "Archer Queen", "minLevel": 50 },
+        { "name": "Barbarian King", "minLevel": 40, "optional": true },
+        { "name": "Grand Warden", "minLevel": 20 }
+      ],
+      "steps": [
+        "Startpunkt für die Königin wählen: eine Ecke mit wenig Luftabwehr und einem klaren Weg nach innen.",
+        "Königin setzen, dann sofort 4 Heiler dahinter - sie müssen die Königin sicher aufnehmen.",
+        "Mit Randgebäuden den Weg lenken, damit die Königin ins Basisinnere zieht statt außen herumzulaufen.",
+        "Heilzauber unter die Königin werfen, sobald die Heiler von der Luftabwehr bedroht werden.",
+        "Wenn die Königin fertig ist: Bergarbeiter und Schweinereiter auf der Gegenseite lostreten, Wut und Einfrieren für den Kern."
+      ],
+      "tips": [
+        "Die Königin nie direkt neben eine Luftabwehr setzen - die Heiler sterben sofort.",
+        "Giftzauber auf die Clanburg-Truppen, während die Königin läuft.",
+        "Schweinereiter in kleinen Gruppen setzen, sonst räumt eine Riesenbombe den halben Pulk ab."
+      ],
+      "tags": ["krieg", "bodenangriff", "drei-sterne", "queen-charge"]
+    },
+    {
+      "id": "yeti-smash",
+      "name": "Yeti Smash",
+      "shortName": "Yeti Smash",
+      "minTownHall": 12,
+      "maxTownHall": 14,
+      "difficulty": "fortgeschritten",
+      "summary": "Yetis mit ihren Yetimites brechen mittig durch. Eisgolems vorweg, Belagerungskaserne hält den Druck aufrecht.",
+      "troops": [
+        { "name": "Yeti", "minLevel": 2, "count": 6 },
+        { "name": "Ice Golem", "minLevel": 3, "count": 3 },
+        { "name": "Witch", "minLevel": 5, "count": 3, "optional": true },
+        { "name": "Wall Breaker", "minLevel": 8, "count": 4 }
+      ],
+      "spells": [
+        { "name": "Rage Spell", "minLevel": 6, "count": 3 },
+        { "name": "Freeze Spell", "minLevel": 6, "count": 2 },
+        { "name": "Healing Spell", "minLevel": 8, "count": 1, "optional": true },
+        { "name": "Poison Spell", "minLevel": 6, "count": 1 }
+      ],
+      "sieges": [{ "name": "Siege Barracks", "minLevel": 1 }],
+      "heroes": [
+        { "name": "Barbarian King", "minLevel": 60 },
+        { "name": "Grand Warden", "minLevel": 35 }
+      ],
+      "steps": [
+        "Eine Seite wählen, auf der Rathaus und zwei bis drei Verteidigungsanlagen in einer Linie liegen.",
+        "Eisgolems vorweg schicken, sie fangen den ersten Schaden ab.",
+        "Mauerbrecher öffnen das erste Fach, danach die Yetis kompakt hinterher.",
+        "Großen Wächter im Bodenmodus direkt hinter die Yetis setzen.",
+        "Wut im ersten Fach, Einfrieren gegen Infernotürme und Adlerartillerie."
+      ],
+      "tips": [
+        "Yetis sind teuer - vorher sicherstellen, dass der Weg wirklich durch den Kern führt.",
+        "Die Yetimites machen den Flächenschaden, deshalb Yetis nie zu weit verteilen.",
+        "Belagerungskaserne auf der Gegenseite setzen, um Verteidigungsanlagen zu binden."
+      ],
+      "tags": ["krieg", "bodenangriff", "drei-sterne"]
+    },
+    {
+      "id": "dragon-rider-blimp",
+      "name": "Dragon Rider + Blimp",
+      "shortName": "Drag Rider",
+      "minTownHall": 13,
+      "maxTownHall": 15,
+      "difficulty": "fortgeschritten",
+      "summary": "Der Kriegsluftschiff-Einsatz räumt den Kern, danach zerlegen Drachenreiter die Verteidigungsanlagen von außen nach innen.",
+      "troops": [
+        { "name": "Dragon Rider", "minLevel": 2, "count": 9 },
+        { "name": "Balloon", "minLevel": 9, "count": 4, "optional": true },
+        { "name": "Minion", "minLevel": 9, "count": 6, "optional": true }
+      ],
+      "spells": [
+        { "name": "Rage Spell", "minLevel": 6, "count": 3 },
+        { "name": "Freeze Spell", "minLevel": 7, "count": 3 },
+        { "name": "Poison Spell", "minLevel": 7, "count": 1 },
+        { "name": "Invisibility Spell", "minLevel": 4, "count": 1, "optional": true }
+      ],
+      "sieges": [{ "name": "Battle Blimp", "minLevel": 3 }],
+      "heroes": [
+        { "name": "Grand Warden", "minLevel": 45 },
+        { "name": "Royal Champion", "minLevel": 20, "optional": true }
+      ],
+      "steps": [
+        "Luftschiff so setzen, dass es auf kürzestem Weg zum Rathaus fliegt.",
+        "Unsichtbarkeit auf das Luftschiff, wenn es an einer Luftabwehr vorbei muss.",
+        "Drachenreiter auf der Seite mit den meisten Verteidigungsanlagen in einer Linie setzen.",
+        "Großen Wächter im Luftmodus mittig dahinter.",
+        "Wut auf den Pulk im Kern, Einfrieren gegen Infernotürme und Scattershot."
+      ],
+      "tips": [
+        "Drachenreiter greifen nur Verteidigungsanlagen an - Restgebäude vorher einplanen.",
+        "Die Luftschiff-Ladung entscheidet den Angriff: Superbogenschützen oder Hexen sind üblich.",
+        "Immer mindestens einen Einfrierzauber für die Adlerartillerie zurückhalten."
+      ],
+      "tags": ["krieg", "luftangriff", "drei-sterne"]
+    },
+    {
+      "id": "electro-titan-smash",
+      "name": "Electro Titan Smash",
+      "shortName": "E-Titan",
+      "minTownHall": 14,
+      "maxTownHall": 16,
+      "difficulty": "experte",
+      "summary": "Elektrotitanen ziehen eine Schadensaura hinter sich her. Mit Hexen und Wut fressen sie sich mittig durch die Basis.",
+      "troops": [
+        { "name": "Electro Titan", "minLevel": 2, "count": 4 },
+        { "name": "Witch", "minLevel": 7, "count": 4 },
+        { "name": "Ice Golem", "minLevel": 5, "count": 2, "optional": true },
+        { "name": "Headhunter", "minLevel": 3, "count": 2, "optional": true }
+      ],
+      "spells": [
+        { "name": "Rage Spell", "minLevel": 6, "count": 4 },
+        { "name": "Freeze Spell", "minLevel": 7, "count": 2 },
+        { "name": "Healing Spell", "minLevel": 10, "count": 1, "optional": true },
+        { "name": "Poison Spell", "minLevel": 8, "count": 1 }
+      ],
+      "sieges": [{ "name": "Battle Drill", "minLevel": 1, "optional": true }],
+      "heroes": [
+        { "name": "Barbarian King", "minLevel": 75 },
+        { "name": "Grand Warden", "minLevel": 50 },
+        { "name": "Royal Champion", "minLevel": 25 }
+      ],
+      "steps": [
+        "Königin vorab als Queen Charge in eine Ecke schicken, um eine Flanke zu räumen.",
+        "Elektrotitanen kompakt auf der Hauptseite setzen, sie brauchen den Gruppenbonus.",
+        "Hexen dahinter, Skelette füllen Lücken und binden Verteidiger.",
+        "Wut praktisch durchgehend auf dem Pulk halten - Titanen sind langsam.",
+        "Einfrieren für Infernoturm und Scattershot aufheben."
+      ],
+      "tips": [
+        "Titanen sterben an gesammeltem Einzelzielschaden - Infernotürme früh einfrieren.",
+        "Der Angriff braucht viel Zeit, spätestens bei 1:30 muss das Rathaus fallen.",
+        "Haustier des Königs (Mighty Yak) hilft beim schnellen Mauerdurchbruch."
+      ],
+      "tags": ["krieg", "bodenangriff", "drei-sterne"]
+    },
+    {
+      "id": "hydra",
+      "name": "Hydra (Drachen + Elektrodrachen + Headhunter)",
+      "shortName": "Hydra",
+      "minTownHall": 14,
+      "maxTownHall": 17,
+      "difficulty": "fortgeschritten",
+      "summary": "Gemischter Luftangriff: Elektrodrachen räumen Gebäudeketten, normale Drachen liefern Einzelschaden, Headhunter jagen die gegnerischen Helden.",
+      "troops": [
+        { "name": "Electro Dragon", "minLevel": 5, "count": 5 },
+        { "name": "Dragon", "minLevel": 8, "count": 5 },
+        { "name": "Headhunter", "minLevel": 3, "count": 3 },
+        { "name": "Balloon", "minLevel": 10, "count": 3, "optional": true }
+      ],
+      "spells": [
+        { "name": "Rage Spell", "minLevel": 6, "count": 4 },
+        { "name": "Freeze Spell", "minLevel": 7, "count": 2 },
+        { "name": "Poison Spell", "minLevel": 8, "count": 2 },
+        { "name": "Invisibility Spell", "minLevel": 4, "count": 1, "optional": true }
+      ],
+      "sieges": [{ "name": "Flame Flinger", "minLevel": 1, "optional": true }],
+      "heroes": [
+        { "name": "Grand Warden", "minLevel": 50 },
+        { "name": "Royal Champion", "minLevel": 25, "optional": true }
+      ],
+      "steps": [
+        "Angriffsseite mit möglichst wenigen Luftabwehren wählen.",
+        "Headhunter zuerst auf die Seite der gegnerischen Königin setzen.",
+        "Elektrodrachen und Drachen abwechselnd in einer breiten Linie setzen.",
+        "Großen Wächter im Luftmodus mittig hinter der Linie.",
+        "Wut auf den Pulk im Kern, Fähigkeit des Wächters direkt vor dem Infernoturm auslösen."
+      ],
+      "tips": [
+        "Headhunter verlangsamen die gegnerische Königin dauerhaft - das rettet oft den Angriff.",
+        "Luftminen vorher mit einem einzelnen Ballon oder Minion auslösen, wenn möglich.",
+        "Der Angriff verzeiht Fehler, braucht aber saubere Zauber-Timings."
+      ],
+      "tags": ["krieg", "luftangriff", "drei-sterne"]
+    },
+    {
+      "id": "root-rider",
+      "name": "Root Rider Smash mit Queen Charge",
+      "shortName": "Root Rider",
+      "minTownHall": 15,
+      "maxTownHall": 17,
+      "difficulty": "fortgeschritten",
+      "summary": "Wurzelreiter laufen durch Mauern hindurch. Kombiniert mit einer Queen Charge auf einer Flanke ist das der zuverlässigste Weg zu 3 Sternen auf hohen Rathäusern.",
+      "troops": [
+        { "name": "Root Rider", "minLevel": 2, "count": 8 },
+        { "name": "Healer", "minLevel": 9, "count": 4 },
+        { "name": "Headhunter", "minLevel": 4, "count": 2, "optional": true },
+        { "name": "Druid", "minLevel": 1, "count": 2, "optional": true }
+      ],
+      "spells": [
+        { "name": "Rage Spell", "minLevel": 6, "count": 3 },
+        { "name": "Healing Spell", "minLevel": 11, "count": 2 },
+        { "name": "Freeze Spell", "minLevel": 7, "count": 2 },
+        { "name": "Poison Spell", "minLevel": 9, "count": 1 }
+      ],
+      "sieges": [{ "name": "Battle Drill", "minLevel": 2, "optional": true }],
+      "heroes": [
+        { "name": "Archer Queen", "minLevel": 80 },
+        { "name": "Grand Warden", "minLevel": 60 },
+        { "name": "Royal Champion", "minLevel": 35 }
+      ],
+      "steps": [
+        "Queen Charge auf der Flanke starten, die am meisten Verteidigungswert bindet.",
+        "Wurzelreiter als kompakten Block auf der Gegenseite setzen - Mauern sind für sie kein Hindernis.",
+        "Großen Wächter im Bodenmodus direkt hinter den Wurzelreitern.",
+        "Wut sofort legen, sobald der Block die erste Verteidigungsanlage erreicht.",
+        "Königin per Königsfähigkeit und Heilzaubern am Leben halten, bis die Flanke geräumt ist."
+      ],
+      "tips": [
+        "Wurzelreiter ignorieren Mauern, aber nicht Fallen - Riesenbomben kosten schnell zwei Einheiten.",
+        "Druiden heilen den Block und sind ab Rathaus 16 ein starker Ersatz für einen Heilzauber.",
+        "Nie zu weit verteilen: der Gruppenzusammenhalt ist der ganze Trick."
+      ],
+      "tags": ["krieg", "bodenangriff", "drei-sterne", "queen-charge"]
+    },
+    {
+      "id": "super-archer-blimp",
+      "name": "Super Archer Blimp",
+      "shortName": "SA Blimp",
+      "minTownHall": 13,
+      "maxTownHall": 16,
+      "difficulty": "experte",
+      "summary": "Das Luftschiff bringt Superbogenschützen direkt zum Rathaus. Ihr Durchschlagsschaden nimmt eine ganze Gebäudereihe mit.",
+      "troops": [
+        { "name": "Super Archer", "minLevel": 1, "count": 4 },
+        { "name": "Balloon", "minLevel": 9, "count": 10, "optional": true },
+        { "name": "Minion", "minLevel": 9, "count": 10, "optional": true }
+      ],
+      "spells": [
+        { "name": "Invisibility Spell", "minLevel": 3, "count": 3 },
+        { "name": "Rage Spell", "minLevel": 6, "count": 2 },
+        { "name": "Freeze Spell", "minLevel": 7, "count": 1 },
+        { "name": "Poison Spell", "minLevel": 7, "count": 1 }
+      ],
+      "sieges": [{ "name": "Battle Blimp", "minLevel": 3 }],
+      "heroes": [{ "name": "Grand Warden", "minLevel": 45 }],
+      "steps": [
+        "Route des Luftschiffs planen: es fliegt immer schnurstracks zum Rathaus.",
+        "Luftschiff setzen und mit Unsichtbarkeit an Luftabwehren vorbeibringen.",
+        "Beim Aufprall sofort Wut auf die Superbogenschützen legen.",
+        "Mit Unsichtbarkeit die Superbogenschützen vor Infernoturm und Adlerartillerie schützen.",
+        "Rest der Basis mit Ballons und Minions aufräumen."
+      ],
+      "tips": [
+        "Superbogenschütze muss vorher in der Superkaserne aktiviert sein - er kostet Dunkles Elixier.",
+        "Die Unsichtbarkeitszauber sind der eigentliche Angriff, nicht die Truppen.",
+        "Ein Fehlplatzieren des Luftschiffs beendet den Angriff sofort - lieber einmal mehr prüfen."
+      ],
+      "tags": ["krieg", "luftangriff", "spezialangriff", "drei-sterne"]
+    },
+    {
+      "id": "thrower-smash",
+      "name": "Thrower Smash",
+      "shortName": "Thrower",
+      "minTownHall": 16,
+      "maxTownHall": 17,
+      "difficulty": "fortgeschritten",
+      "summary": "Werfer greifen über Mauern hinweg an und bleiben dabei außer Reichweite. Mit Druiden als Heilung ein sehr stabiler Bodenangriff.",
+      "troops": [
+        { "name": "Thrower", "minLevel": 3, "count": 8 },
+        { "name": "Druid", "minLevel": 3, "count": 3 },
+        { "name": "Ice Golem", "minLevel": 7, "count": 2, "optional": true },
+        { "name": "Furnace", "minLevel": 1, "count": 2, "optional": true }
+      ],
+      "spells": [
+        { "name": "Rage Spell", "minLevel": 7, "count": 3 },
+        { "name": "Freeze Spell", "minLevel": 8, "count": 2 },
+        { "name": "Overgrowth Spell", "minLevel": 3, "count": 2, "optional": true },
+        { "name": "Poison Spell", "minLevel": 10, "count": 1 }
+      ],
+      "sieges": [{ "name": "Troop Launcher", "minLevel": 1, "optional": true }],
+      "heroes": [
+        { "name": "Barbarian King", "minLevel": 90 },
+        { "name": "Grand Warden", "minLevel": 65 },
+        { "name": "Minion Prince", "minLevel": 60 }
+      ],
+      "steps": [
+        "Werfer hinter einer Front aus Eisgolems oder dem Königstrupp setzen.",
+        "Druiden mittig dahinter, sie wechseln automatisch in den Heilmodus.",
+        "Wucherungszauber auf Verteidigungsanlagen legen, die den Weg blockieren.",
+        "Wut auf den Pulk, sobald er die erste Verteidigungslinie beschießt.",
+        "Einfrieren gegen Infernoturm und Monolith aufheben."
+      ],
+      "tips": [
+        "Werfer haben große Reichweite, aber wenig Leben - sie dürfen nie vorne laufen.",
+        "Der Monolith ist die größte Gefahr für den Pulk: unbedingt einfrieren oder umgehen.",
+        "Druiden im Bärenmodus fressen viel Schaden weg, wenn sie nicht heilen müssen."
+      ],
+      "tags": ["krieg", "bodenangriff", "drei-sterne"]
+    },
+    {
+      "id": "sneaky-goblins",
+      "name": "Sneaky Goblins (Farmen)",
+      "shortName": "Sneaky Gobs",
+      "minTownHall": 10,
+      "maxTownHall": 17,
+      "difficulty": "einsteiger",
+      "summary": "Schleicher-Goblins sind kurz unsichtbar und plündern Lager und Sammler, bevor die Verteidigung reagiert. Die schnellste Farm-Armee im Spiel.",
+      "troops": [
+        { "name": "Sneaky Goblin", "minLevel": 1, "count": 40 },
+        { "name": "Wall Breaker", "minLevel": 8, "count": 4, "optional": true }
+      ],
+      "spells": [
+        { "name": "Jump Spell", "minLevel": 3, "count": 1, "optional": true },
+        { "name": "Rage Spell", "minLevel": 6, "count": 1, "optional": true }
+      ],
+      "sieges": [],
+      "heroes": [],
+      "steps": [
+        "Ziel mit gut gefüllten Lagern nahe am Rand suchen.",
+        "Goblins direkt neben dem ersten Lager in einem Schwung setzen.",
+        "Die Unsichtbarkeitsphase nutzen, um an Verteidigungsanlagen vorbeizukommen.",
+        "Nachschub in kleinen Wellen setzen, nicht alles auf einmal.",
+        "Angriff beenden, sobald die Lager leer sind - Sterne sind hier egal."
+      ],
+      "tips": [
+        "Superkaserne muss auf Goblin gestellt sein, das kostet Dunkles Elixier.",
+        "Auf Fallen achten: eine Riesenbombe kann zehn Goblins auf einmal töten.",
+        "Ideal, um während laufender Helden-Upgrades trotzdem effizient zu farmen."
+      ],
+      "tags": ["farmen", "schnell", "bodenangriff"]
+    }
+  ]
+}
